@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="title">
+            <title>Idiomas</title>
+        </ui:define>
+        <ui:define name="corpo">
+            <br/>
+            <center><h3>Cadastrar novo idioma</h3></center>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Nome do idioma:" for="nome"/>
+                    <h:inputText id="nome" value="#{idiomasBean.idioma.nome}" />
+                    <h:outputLabel value="Sigla do idioma:" for="sigla"/>
+                    <h:inputText id="sigla" value="#{idiomasBean.idioma.sigla}" />
+                     <h:outputLabel value="" />
+                    <h:commandButton styleClass="button" action="#{idiomasBean.salvar()}" value="Gravar idioma"/>
+                </h:panelGrid>
+
+                <h:messages/>
+            </h:form>
+            <br/>
+            <h:form>
+                <center><h3>Idiomas cadastrados</h3></center>
+                <h:dataTable value="#{idiomasBean.idiomasLista}" var="idioma">
+                    <f:facet name="footer">Fim da lista</f:facet>
+                    <h:column>
+                        <f:facet name="header">Código</f:facet>
+                        <h:outputText value="#{idioma.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nome</f:facet>
+                        <h:outputText value="#{idioma.nome}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Sigla</f:facet>
+                        <h:outputText value="#{idioma.sigla}" />
+                    </h:column>
+                    <h:column>
+                        <h:commandLink onclick="if (!confirm('Confirma exclusão do idioma #{idioma.nome}?'))
+                                    return false" 
+                                       value="Excluir" action="#{idiomasBean.excluir(idioma)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

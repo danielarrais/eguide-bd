@@ -1,0 +1,53 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="title">
+            <h:panelGroup rendered="#{livroBean.livro != null}">
+                <title>#{livroBean.livro.nome}</title>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{livroBean.livro == null}">
+                <title>Titulo não encontrado!!!</title>
+            </h:panelGroup>
+        </ui:define>
+        <ui:define name="corpo">
+            <h:panelGroup rendered="#{livroBean.livro != null}">
+                <h3>Titulo:</h3>
+                <p>#{livroBean.livro.nome}</p>
+                <h3>Descrição:</h3>
+                <p>#{livroBean.livro.descricao}</p>
+                <h3>Autores:</h3>
+                <p>
+                    <ui:repeat value="#{livroBean.autores}" var="autor">
+                        #{autor.nomeAbnt}<br/>
+                    </ui:repeat>
+                </p>
+                <h3>Editora:</h3>
+                <p>#{livroBean.livro.editora.nome}</p>
+                <h3>Idioma:</h3>
+                <p>#{livroBean.livro.idioma.nome}</p>
+                <h3>Número de páginas:</h3>
+                <p>#{livroBean.livro.paginas}</p>
+                <h3>Edição:</h3>
+                <p>#{livroBean.livro.edicao}</p>
+                <h3>Genero:</h3>
+                <p>#{livroBean.livro.subgenero.genero.nome}</p>
+                <h3>Subgenero:</h3>
+                <p>#{livroBean.livro.subgenero.nome}</p>
+                <h3>Ano:</h3>
+                <p>#{livroBean.livro.ano}</p>
+                <h3>Isbn 10:</h3>
+                <p>#{livroBean.livro.isbn10}</p>
+                <h3>Isbn 13:</h3>
+                <p>#{livroBean.livro.isbn13}</p>
+            </h:panelGroup>
+            
+            <h:panelGroup rendered="#{livroBean.livro == null}">
+                <h1>Titulo não encontrado!!!</h1>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+

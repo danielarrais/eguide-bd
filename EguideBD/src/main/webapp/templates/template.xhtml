@@ -1,0 +1,150 @@
+<html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <h:head>
+        <meta charset="utf-8" />
+        <meta http-equiv="x-ua-compatible" content="ie=edge"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <ui:insert name="title">
+            <title>Utilizando templates!!!</title>
+        </ui:insert>
+        <!--<link rel="stylesheet" href="/templates/recursos/css/foundation.css"/>-->
+        <h:outputStylesheet library="css" name="foundation.css" />
+        <h:outputStylesheet library="css" name="meucss.css" />
+    </h:head>
+    <h:body>
+        <ui:insert name="logo" >
+            <div class="grid-container fluid espacoLogo">
+                <div class="grid-x grid-margin-x">
+                    <div class="cell small-2">
+                    </div>
+                    <div class="cell small-4">
+                        <h:link outcome="/index" class="textoPequeno" ><h:graphicImage styleClass="logo" library="imagens" name="logo/logo.png" alt="Eguide"/></h:link>
+                    </div>
+                    <div class="cell small-4 top-bar" style="background-color: #cacaca !important;" id="responsive-menu"> 
+                        <h:panelGroup rendered="#{empty loginBean.usuario}">
+                            <div class="top-bar-right espacoLogo" >
+                                <h:form>
+                                    <ul class="menu" style="background-color: #cacaca !important;">
+                                        <li><h:inputText value="#{loginBean.emailInformado}" class="textInputLogin" a:placeholder="Email"/></li>
+                                        <li><h:inputSecret value="#{loginBean.senhaInformada}" class="textInputLogin" a:placeholder="Senha"/></li>
+                                        <li><h:commandButton value="Login" styleClass="button bbuscar textInput" action="#{loginBean.logar()}"/></li>
+                                        <li><h:commandLink action="#" styleClass="buttonFace" ><h:graphicImage library="imagens" name="icones/face.png" style="height: 2rem !important;" alt=""/></h:commandLink></li>
+                                        <li><h:commandLink action="#" styleClass="buttonFace" ><h:graphicImage library="imagens" name="icones/google.png" style="height: 2rem !important;" alt=""/></h:commandLink></li>
+                                    </ul>
+                                    <ul class="menu textoPequeno" style="background-color: #cacaca !important;">
+                                        <h:link outcome="/publico/cadastrousuario" class="textoPequeno" >Fazer cadastro</h:link>
+                                        <h:link outcome="/publico/recuperarsenha.xhtml" class="textoPequeno" >Esqueceu a senha?</h:link>
+                                    </ul>
+                                </h:form>
+                            </div>
+                        </h:panelGroup>
+                        <h:panelGroup rendered="#{loginBean.usuario!= null}">
+                            <div class="top-bar-right espacoLogo" >
+                                <ul class="dropdown menu" data-dropdown-menu="">
+                                    <li class="has-submenu">
+                                        <a href="#0">#{loginBean.usuario.nome}</a>
+                                        <ul class="submenu menu vertical" data-submenu="">
+                                            <li><h:link outcome="/user/index">Preferências</h:link></li>
+                                            <h:panelGroup rendered="#{loginBean.isNivel('admin')==true}">
+                                                <li><h:link outcome="/admin/index">Administração</h:link></li>
+                                            </h:panelGroup>
+                                            <h:form>
+                                                <h:commandLink value="Sair" action="#{loginBean.sair}"/>
+                                            </h:form>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </h:panelGroup>
+                    </div> 
+                </div>
+                <div class="cell small-2">
+                </div>
+            </div>
+        </ui:insert>
+        <ui:insert name="navbar" >
+            <div class="grid-container fluid meuMenu" style="background-color: #e6e6e6;">
+                <div class="grid-x grid-margin-x">
+                    <div class="cell small-2">
+                    </div>
+                    <div class="cell small-8">
+                        <div class="top-bar" id="responsive-menu">
+                            <div class="top-bar-left">
+                                <ul class="dropdown menu" data-dropdown-menu="">
+                                    <li class="has-submenu">
+                                        <a href="#0">Categorias</a>
+                                        <ul class="submenu menu vertical" data-submenu="">
+                                            <ui:repeat value="#{templateBean.menuGeneros}" var="genero">
+                                                <li><a href="#">#{genero.nome}</a>
+                                                    <h:panelGroup rendered="#{not empty genero.subgeneros}">
+                                                        <ul class="submenu menu vertical" data-submenu="">
+                                                            <ui:repeat  value="#{genero.subgeneros}" var="subgenero">
+                                                                <li><a href="#">#{subgenero.nome}</a></li>
+                                                            </ui:repeat>
+                                                        </ul>
+                                                    </h:panelGroup>
+                                                </li>
+                                            </ui:repeat>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <a href="#0">Autores</a>
+                                    </li>
+
+                                    <li><a href="#0">Sobre o Eguide</a></li>
+                                </ul>
+                            </div>
+                            <div class="top-bar-right">
+                                <h:form>
+                                    <ul class="menu">
+                                        <li><h:inputText value="" class="textInput" a:placeholder="Buscar"/></li>
+                                        <li><h:button value="Buscar" styleClass="button bbuscar textInput" /></li>
+                                    </ul>
+                                </h:form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="cell small-2">
+                    </div>
+                </div>
+            </div> 
+        </ui:insert>
+
+        <div  class="grid-container fluid">
+            <div class="grid-x grid-margin-x">
+                <div class="cell small-2">
+                </div>
+                <div class="cell small-8">
+                    <ui:insert name="corpo">
+
+                        <center class="h"><h1 class="h">Aqui é o corpo da página!</h1></center>
+                    </ui:insert>
+                </div>
+                <div class="cell small-2">
+
+                </div>
+            </div>
+        </div> 
+        <ui:insert name="footer" >
+            <footer >
+                <div class="row meuMenu footer" >
+                    <center href="#0">© 2017–2017 DANIEL Desenv., Inc.</center>
+                </div>
+            </footer>
+        </ui:insert>
+        <h:outputScript library="js" name="jquery.js" />
+        <h:outputScript library="js" name="what-input.js" />
+        <h:outputScript library="js" name="foundation.min.js" />
+        <h:outputScript library="js" name="jquery.mask.min.js" />
+
+        <script>
+            $(document).foundation();
+            $(document).ready(function () {
+                $('.date').mask('00/00/0000');
+            });
+        </script>
+    </h:body>
+</html>
+

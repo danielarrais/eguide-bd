@@ -1,0 +1,87 @@
+.logo{
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+.espacoLogo{
+    border: 0rem !important;
+    background-color: #cacaca !important;
+}
+.espacoLogo tr{
+    border: 0rem !important;
+    background-color: #cacaca !important;
+}
+.top-bar{
+    padding: 0.3rem !important;
+    background-color: #1468a0 !important;
+}
+.meuMenu{
+    background-color: #1468a0 !important;
+}
+.dropdown,.menu{
+    color: #fff !important;
+    background-color: #1468a0 !important;
+}
+.menu a{
+    color: #fff !important;
+}
+
+.bbuscar{
+    color: #fff !important;
+    border-radius: 10px !important;
+    background-color: #0a0a0a !important;
+}
+.semmargem{
+    margin: 0 !important;
+}
+.sempadding{
+    padding: 0rem !important;
+}
+
+.textInput{
+    margin-right: 2px !important;
+    height: 2rem !important;
+}
+
+.textInputLogin{
+    width: 7rem !important;
+    font-size: 0.8rem !important;
+    margin-right: 3px !important;
+    height: 2rem !important;
+}
+
+.bottomLogin{
+    width: 5rem !important;
+}
+
+.textoPequeno{
+    padding-top: 2px !important;
+    padding-left: 0 !important;
+    color: #000000 !important;
+    font-size: 0.8rem !important;
+    margin-right: 3px !important;
+    height: 2rem !important;
+}
+.buttonFace{
+    margin-left: 3px !important;  
+    padding:  0 !important;
+    text-decoration: none;
+    color: black;
+}
+
+.footer{
+    color: #fff !important;
+    height: 50px !important;
+    width: 100% !important;;
+    padding-top: 15px !important;
+   
+    bottom: 0px !important;;
+}
+
+.inner {
+    margin: auto auto;
+    padding-top: 20px;
+}
+
+.h{
+    color: #67251a !important;
+}

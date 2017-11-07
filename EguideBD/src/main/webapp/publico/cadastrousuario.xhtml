@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="title">
+            <title>Cadastro de usuário</title>
+        </ui:define>
+        <ui:define name="corpo">
+            <h:form>
+                <h:messages style = "color:red;margin:8px;"/>
+                <h:inputHidden value="#{cadastroBean.usuario.id}"/>
+                <h:panelGrid columns="2">
+                    <h:outputLabel value="Nome:" for="nome"/>
+                    <h:inputText id="nome" label="Nome" value="#{cadastroBean.usuario.nome}" size="30" maxlength="30" required="true" requiredMessage="Por favor informe seu nome!">
+                        <f:validateLength maximum="30" minimum="3"/>
+                    </h:inputText>
+
+                    <h:outputLabel value="Sobrenome:" for="sobrenome"/>
+                    <h:inputText id="sobrenome" label="Sobrenome" value="#{cadastroBean.usuario.sobrenome}" size="80" maxlength="80" required="false">
+                        <f:validateLength maximum="80" minimum="3"/>
+                    </h:inputText>
+
+                    <h:outputLabel value="Nascimento:" for="nasc"/>
+                    <h:inputText styleClass="data" id="nasc" label="Nascimento" value="#{cadastroBean.usuario.nascimento}" size="80" maxlength="80" required="false">
+                        <f:convertDateTime dateStyle="medium"/>
+                    </h:inputText>
+
+                    <h:outputLabel value="E-mail:" for="email"/>
+                    <h:panelGroup>
+                        <h:inputText id="email" value="#{cadastroBean.usuario.email}" size="80" maxlength="80" required="true" requiredMessage="Por favor informe seu E-mail!" validatorMessage="E-mail inválido!">
+                            <f:validateLength maximum="80" minimum="3"/>
+                            <f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+"/>
+                        </h:inputText>
+                        <h:message for="email"/>
+                    </h:panelGroup>
+
+                    <h:outputLabel value="Senha:" for="senha"/>
+                    <h:inputSecret id="senha" label="Senha" value="#{cadastroBean.usuario.senha}" size="12" maxlength="12" rendered="true" redisplay="true"/>
+
+                    <h:outputLabel value="Confirmar senha:" for="confirmarsenha"/>
+                    <h:inputSecret id="confirmarsenha" label="Confirmar senha" value="#{cadastroBean.confirmarSenha}" size="12" maxlength="12" rendered="true" redisplay="true"/>
+                    <h:outputLabel value=""/>
+                    <h:commandButton action="#{cadastroBean.salvar}" value="Realizar cadastro"/>
+                </h:panelGrid>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>
+

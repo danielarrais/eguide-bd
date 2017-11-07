@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:decorate xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="title">
+            <title>Recuperar senha</title>
+        </ui:define>
+        <ui:define name="corpo">
+            <h:messages/>
+            <h:panelGroup rendered="#{recuperarSenha.exibirInsereEmail == true}" >
+                <h3>Passo 1: insira o email da sua conta!</h3>
+                <h:form>
+                    <h:outputLabel value="Email:#{recuperarSenha.codigoInformado}" for="email"/>
+                    <h:message for="email"/>
+                    <h:inputText value="#{recuperarSenha.email}" id="email" required="true" requiredMessage="Por favor insira um e-mail!"/>
+                    <h:commandButton action="#{recuperarSenha.enviarCodigo()}" value="Enviar código"/>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{recuperarSenha.exibirInsereCodigo == true}">
+                <h3>Passo 2: Insira o código enviado para #{recuperarSenha.email}!</h3>
+                <h:form>
+                    <h:outputLabel value="Código:" for="cod"/>
+                    <h:message for="cod"/>
+                    <h:inputText value="#{recuperarSenha.codigoInformado}" id="cod" required="true" requiredMessage="Por favor insira um e-mail!"/>
+                    <h:commandButton action="#{recuperarSenha.verificarCodigo()}" value="Verificar código"/>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{recuperarSenha.exibeInsereSenha == true}">
+                <h3>Passo 3: insira a nova senha!</h3>
+                <h:form>
+                    <h:outputLabel value="Nova senha: " for="senha"/>
+                    <h:message for="senha"/>
+                    <h:inputText value="#{recuperarSenha.novaSenha}" id="senha" required="true" requiredMessage="Por favor insira uma senha!"/>
+                    <h:outputLabel value="Insira a nova senha novamente: " for="cSenha"/>
+                    <h:message for="cSenha"/>
+                    <h:inputText value="#{recuperarSenha.senhaConfirmada}" id="cSenha" required="true" requiredMessage="Por favor confirme a senha!"/>
+                    <h:commandButton action="#{recuperarSenha.verificarSenha()}" value="Alterar senha"/>
+                </h:form>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</ui:decorate>
+

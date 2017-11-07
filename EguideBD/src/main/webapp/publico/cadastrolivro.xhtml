@@ -1,0 +1,149 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="title">
+            <title>Verificar ISBN</title>
+        </ui:define>
+        <ui:define name="corpo">
+            <h1>Cadastrar um novo livro</h1>
+            <h:panelGroup rendered="#{cadastroLivroBean.passo1 == true}" >
+                <h:form>
+                    <h:panelGrid>
+                        <h:messages/>
+                        <h3>Passo 1: Inserir ISBN:</h3>
+                        <h:panelGroup>
+                            <h:inputText id="isbn" value="#{cadastroLivroBean.ISBNinserido}" validatorMessage="ISBN inválido! Por favor insira o ISBN 13 do livro, sem traços pontos ou barras!">
+                                <f:validateRegex pattern="^[0-9]{13}"/>
+                            </h:inputText>
+                            <h:message for="isbn"/>
+                        </h:panelGroup>
+                        <h:commandButton value="Proximo" action="#{cadastroLivroBean.estadoDois}"/>
+                    </h:panelGrid>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup id="passo2" rendered="#{cadastroLivroBean.passo2 == true}">
+                <h3>Passo 2: Adicione os autores do livro(ISBN #{cadastroLivroBean.livro.isbn13}):</h3>
+                <h:form id="form1">
+                    <h:messages/>
+                    <h:panelGrid columns="2">
+                        <h:panelGroup>
+                            <h:selectOneMenu value="#{cadastroLivroBean.autorSelecionado}" converter="autorConverter">
+                                <f:selectItems value="#{cadastroLivroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}" />
+                            </h:selectOneMenu>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:commandButton value="Adicionar autor">
+                                <f:ajax listener="#{cadastroLivroBean.addAutor(cadastroLivroBean.autorSelecionado)}" execute="@all" render="passo2" event="click"/>
+                            </h:commandButton>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <h:commandButton value="Voltar" action="#{cadastroLivroBean.estadoUm}" immediate="true"/>
+                    <h:commandButton value="Proximo" action="#{cadastroLivroBean.estadoTres}"/>
+                    <br/><h3>Autores escolhidos:</h3>
+                    <h:dataTable  value="#{cadastroLivroBean.autoresSelecionados}" var="autor">
+                        <h:column>
+                            <f:facet name="header">Nome</f:facet>
+                            <h:outputText value="#{autor.nome}" />
+                        </h:column>
+                        <h:column>
+                            <f:facet name="header">Nome ABNT</f:facet>
+                            <h:outputText value="#{autor.nomeAbnt}" />
+                        </h:column>
+                        <h:column>
+                            <h:commandButton onclick="if (!confirm('Confirma remoção do autor da lista #{autor.nome}?'))
+                                        return false" value="Excluir" >
+                                <f:ajax listener="#{cadastroLivroBean.removerAutor(autor)}" render="passo2"/>
+                            </h:commandButton>
+                        </h:column>
+                    </h:dataTable>
+                </h:form>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{cadastroLivroBean.passo3 == true}">
+                <h3>Passo 3: Finalizar cadastro:</h3>
+                <h:form id="fomulario">
+                    <h:messages/>
+                    <h:panelGrid columns="1">
+                        <h:panelGroup>
+                            <h:outputLabel for="nome" value="Nome:"/>
+                            <h:inputText id="nome" value="#{cadastroLivroBean.livro.nome}" required="true" requiredMessage="Informe o nome do livro!"/>
+                        </h:panelGroup>
+                        <h:panelGroup>
+                            <h:outputLabel for="descricao" value="Descricao:"/>
+                            <h:inputTextarea id="descricao" value="#{cadastroLivroBean.livro.descricao}" required="true" requiredMessage="Informe a descrição do livro!"/>
+                        </h:panelGroup>
+                        <h:panelGrid columns="2">
+                            <h:panelGroup>
+                                <h:outputLabel for="genero" value="Genero:"/>
+                                <h:selectOneMenu value="#{cadastroLivroBean.idGeneroSelecionado}" >
+                                    <f:selectItem itemLabel="Selecione um genero" itemValue="#{0}"/>
+                                    <f:selectItems value="#{cadastroLivroBean.generos}"/>
+                                    <p:ajax update="subgenero" listener="#{cadastroLivroBean.setSubgeneros(cadastroLivroBean.subgeneros)}"/>
+                                </h:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup >
+                                <h:outputLabel for="subgenero" value="Subgenero:"/>
+                                <h:selectOneMenu id="subgenero" value="#{cadastroLivroBean.idSubGeneroSelecionado}" required="true" requiredMessage="Escolha um subgenero!">
+                                    <f:selectItem itemLabel="Selecione um subgenero" itemValue="#{0}"/>
+                                    <f:selectItems value="#{cadastroLivroBean.subgeneros}"/>
+                                </h:selectOneMenu>
+                            </h:panelGroup>
+                        </h:panelGrid>
+
+                        <h:panelGrid columns="2">
+                            <h:panelGroup>
+                                <h:outputLabel for="isbn10" value="ISBN 10:"/>
+                                <h:inputText id="isbn10" value="#{cadastroLivroBean.livro.isbn10}" required="false"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="isbn13" value="ISBN 13:"/>
+                                <h:inputText disabled="true" id="isbn13" value="#{cadastroLivroBean.livro.isbn13}" required="true"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3">
+                            <h:panelGroup>
+                                <h:outputLabel for="idioma" value="Idioma:"/>
+                                <h:selectOneMenu id="idioma" value="#{cadastroLivroBean.idiomaSelecionado}"  required="true" requiredMessage="Escolha um idioma!">
+                                    <f:selectItems value="#{cadastroLivroBean.idiomas}" />
+                                </h:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="origem" value="Origem:"/>
+                                <h:selectOneMenu id="origem" value="#{cadastroLivroBean.origemSelecionada}" required="true" requiredMessage="Escolha uma origem!">
+                                    <f:selectItems value="#{cadastroLivroBean.origens}"/>
+                                </h:selectOneMenu>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="editora" value="Editora:"/>
+                                <h:selectOneMenu id="editora" value="#{cadastroLivroBean.editoraSelecionada}" required="true" requiredMessage="Escolha uma Editora!">
+                                    <f:selectItems value="#{cadastroLivroBean.editoras}" />
+                                </h:selectOneMenu>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                        <h:panelGrid columns="3">
+                            <h:panelGroup>
+                                <h:outputLabel for="paginas" value="Número de páginas:"/>
+                                <h:inputText id="paginas" value="#{cadastroLivroBean.livro.paginas}" required="true" requiredMessage="Informe o número de página do livro!"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="edicao" value="Edição:"/>
+                                <h:inputText id="edicao" value="#{cadastroLivroBean.livro.edicao}" required="true" requiredMessage="Informe a edição do livro!"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                <h:outputLabel for="ano" value="Ano:"/>
+                                <h:inputText id="ano" value="#{cadastroLivroBean.livro.ano}" required="true" requiredMessage="Informe o ano do livro!"/>
+                            </h:panelGroup>
+                        </h:panelGrid>
+                    </h:panelGrid>
+                    <h:commandButton value="Voltar" actionListener="#{cadastroLivroBean.estadoDois}" immediate="true"/>
+                    <h:commandButton type="submit" value="Cadastrar livro" action="#{cadastroLivroBean.cadastrar()}"/>
+                </h:form>
+            </h:panelGroup>
+        </ui:define>
+    </ui:composition>
+</html>
+
