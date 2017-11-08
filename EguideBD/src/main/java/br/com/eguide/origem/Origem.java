@@ -1,6 +1,7 @@
 
 package br.com.eguide.origem;
 
+import br.com.eguide.entidade.Entidade;
 import java.io.Serializable;
 import java.util.Objects;
 

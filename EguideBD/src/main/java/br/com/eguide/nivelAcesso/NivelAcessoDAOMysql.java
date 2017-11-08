@@ -133,6 +133,7 @@ public class NivelAcessoDAOMysql implements NivelAcessoDAO {
             System.out.println("Erro ao salvar niveis de acesso. Erro: " + e.getMessage());
         }
     }
+    @Override
     public void exluirNiveis(Usuario usuario) {
         try {
             connection = MysqlUtil.getConnection();

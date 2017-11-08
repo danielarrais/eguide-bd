@@ -9,6 +9,7 @@ import br.com.eguide.autor.Autor;
 import br.com.eguide.autor.AutorRN;
 import br.com.eguide.editora.Editora;
 import br.com.eguide.editora.EditoraRN;
+import br.com.eguide.entidade.Entidade;
 import br.com.eguide.genero.Genero;
 import br.com.eguide.genero.GeneroRN;
 import br.com.eguide.idioma.Idioma;
@@ -22,8 +23,10 @@ import br.com.eguide.subgenero.SubgeneroRN;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -39,15 +42,18 @@ public class LivrosBean implements Serializable {
     private List<Editora> editoras;
     private List<Subgenero> subgeneros;
     private List<Autor> autores;
+    private Set<String> anos;
 
-    private List<Livro> livrosSelecionados;
-    private List<Idioma> idiomasSelecionados;
-    private List<Origem> origensSelecionados;
-    private List<Editora> editorasSelecionados;
-    private List<Subgenero> subgenerosSelecionados;
-    private List<Autor> autoresSelecionados;
+    private ArrayList<String> livrosSelecionados;
+    private ArrayList<String> idiomasSelecionados;
+    private ArrayList<String> origensSelecionados;
+    private ArrayList<String> editorasSelecionados;
+    private ArrayList<String> subgenerosSelecionados;
+    private ArrayList<String> autoresSelecionados;
+    private ArrayList<String> anosSelecionados;
 
-    Map<String, ArrayList<Object>> restricoes;
+    Map<String, ArrayList<String>> restricoes;
+    Map<String, ArrayList<String>> restricoesIsoladas;
 
     LivroRN livroRN = new LivroRN();
     GeneroRN generoRN = new GeneroRN();
@@ -56,79 +62,107 @@ public class LivrosBean implements Serializable {
     EditoraRN editoraRN = new EditoraRN();
     AutorRN autorRN = new AutorRN();
     SubgeneroRN subgeneroRN = new SubgeneroRN();
-    
-    public String atualizarResultados(){
+
+    public String atualizarResultados() {
         return null;
     }
 
+    public Set<String> getAnos() {
+        if (anos==null) {
+            anos= new HashSet<String>();
+        }
+        for (Object valor : livroRN.valores("ano", false)) {
+            anos.add(valor.toString());
+        }
+        return anos;
+    }
+
     //Geters e Seters
-    public List<Livro> getLivrosSelecionados() {
+    public void setAnos(Set<String> anos) {
+        this.anos = anos;
+    }
+
+    public List<String> getAnosSelecionados() {
+        return anosSelecionados;
+    }
+
+    public void setAnosSelecionados(ArrayList<String> anosSelecionados) {
+        this.anosSelecionados = anosSelecionados;
+    }
+
+    public List<String> getLivrosSelecionados() {
         return livrosSelecionados;
     }
 
-    public void setLivrosSelecionados(List<Livro> livrosSelecionados) {
+    public void setLivrosSelecionados(ArrayList<String> livrosSelecionados) {
         this.livrosSelecionados = livrosSelecionados;
     }
 
-    public List<Idioma> getIdiomasSelecionados() {
+    public List<String> getIdiomasSelecionados() {
         return idiomasSelecionados;
     }
 
-    public void setIdiomasSelecionados(List<Idioma> idiomasSelecionados) {
+    public void setIdiomasSelecionados(ArrayList<String> idiomasSelecionados) {
         this.idiomasSelecionados = idiomasSelecionados;
     }
 
-    public List<Origem> getOrigensSelecionados() {
+    public List<String> getOrigensSelecionados() {
         return origensSelecionados;
     }
 
-    public void setOrigensSelecionados(List<Origem> origensSelecionados) {
+    public void setOrigensSelecionados(ArrayList<String> origensSelecionados) {
         this.origensSelecionados = origensSelecionados;
     }
 
-    public List<Editora> getEditorasSelecionados() {
+    public List<String> getEditorasSelecionados() {
         return editorasSelecionados;
     }
 
-    public void setEditorasSelecionados(List<Editora> editorasSelecionados) {
+    public void setEditorasSelecionados(ArrayList<String> editorasSelecionados) {
         this.editorasSelecionados = editorasSelecionados;
     }
 
-    public List<Subgenero> getSubgenerosSelecionados() {
+    public List<String> getSubgenerosSelecionados() {
         return subgenerosSelecionados;
     }
 
-    public void setSubgenerosSelecionados(List<Subgenero> subgenerosSelecionados) {
+    public void setSubgenerosSelecionados(ArrayList<String> subgenerosSelecionados) {
         this.subgenerosSelecionados = subgenerosSelecionados;
     }
 
-    public List<Autor> getAutoresSelecionados() {
+    public List<String> getAutoresSelecionados() {
         return autoresSelecionados;
     }
 
-    public void setAutoresSelecionados(List<Autor> autoresSelecionados) {
+    public void setAutoresSelecionados(ArrayList<String> autoresSelecionados) {
         this.autoresSelecionados = autoresSelecionados;
     }
+    
+    
+    
 
     public List<Livro> getLivros() {
-        restricoes = new HashMap<String, ArrayList<Object>>();
-        if (idiomasSelecionados!=null) {
-            restricoes.put("idioma", new ArrayList<Object>(idiomasSelecionados));
+        restricoes = new HashMap<String, ArrayList<String>>();
+        restricoesIsoladas = new HashMap<String, ArrayList<String>>();
+        if (idiomasSelecionados != null) {
+            restricoes.put("idioma", idiomasSelecionados);
         }
-        if (origensSelecionados!=null) {
-            restricoes.put("origem", new ArrayList<Object>(origensSelecionados));
+        if (origensSelecionados != null) {
+            restricoes.put("origem", origensSelecionados);
         }
-        if (editorasSelecionados!=null) {
-            restricoes.put("editora", new ArrayList<Object>(editorasSelecionados));
+        if (editorasSelecionados != null) {
+            restricoes.put("editora", editorasSelecionados);
         }
-        if (autoresSelecionados!=null) {
-            restricoes.put("autor", new ArrayList<Object>(autoresSelecionados));
+        if (autoresSelecionados != null) {
+            restricoes.put("autor", autoresSelecionados);
         }
-//        if (subgenerosSelecionados!=null) {
-//            restricoes.put("subgenero", new ArrayList<Object>(subgenerosSelecionados));
-//        }
-        
-        return new LivroRN().listar();
+        if (subgenerosSelecionados != null) {
+            restricoes.put("subgenero", subgenerosSelecionados);
+        }
+        if (anosSelecionados != null) {
+            restricoesIsoladas.put("ano",anosSelecionados);
+        }
+        return new LivroRN().listaEspecial(restricoes, restricoesIsoladas);
     }
 
     public void setLivros(List<Livro> livros) {

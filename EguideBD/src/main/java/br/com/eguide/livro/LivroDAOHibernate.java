@@ -1,13 +1,17 @@
 package br.com.eguide.livro;
 
+import br.com.eguide.autor.Autor;
+import br.com.eguide.entidade.Entidade;
 import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class LivroDAOHibernate implements LivroDAO {
 
@@ -174,7 +178,82 @@ public class LivroDAOHibernate implements LivroDAO {
     }
 
     @Override
-    public List<Livro> listarEspecial(Map<String, ArrayList<Object>> objects) {
-        return null;
+    public List<Livro> filtarLivros(Map<String, ArrayList<String>> objects, Map<String, ArrayList<String>> criterios) {
+        List<Livro> lista = new ArrayList<Livro>();
+        try {
+            connection = MysqlUtil.getConnection();
+            String sql = "select distinct LIVRO.* from livro LIVRO  "
+                    + "inner join autor_livro AUTOR_LIVRO on LIVRO.id_livro = AUTOR_LIVRO.id_livro "
+                    + "inner join autor AUTOR on AUTOR_LIVRO.id_autor = AUTOR.id_autor "
+                    + "inner join editora EDITORA on LIVRO.editora_id_editora = EDITORA.id_editora "
+                    + "inner join origem ORIGEM on LIVRO.origem_id_origem = ORIGEM.id_origem "
+                    + "inner join idioma IDIOMA on LIVRO.idioma_id_idioma = IDIOMA.id_idioma "
+                    + "inner join subgenero SUBGENERO on LIVRO.subgenero_id_subgenero = SUBGENERO.id_subgenero ";
+            
+            for (String key : objects.keySet()) {
+                if (!objects.get(key).isEmpty()) {
+                    sql += " and " + key.toUpperCase() + ".id_"+key+" in " + arrayInIn(objects.get(key));
+                }
+            }
+            for (String key : criterios.keySet()) {
+                if (!criterios.get(key).isEmpty()) {
+                    sql += " and LIVRO."+key+" in " + arrayInIn(criterios.get(key));
+                }
+            }
+            System.out.println(sql);
+            PreparedStatement consulta = connection.prepareStatement(sql);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                lista.add(new Livro(
+                        resultado.getInt(1),
+                        resultado.getString(7),
+                        resultado.getString(3),
+                        resultado.getInt(2),
+                        resultado.getInt(5),
+                        resultado.getLong(6),
+                        resultado.getInt(8),
+                        resultado.getInt(4),
+                        DAOFactory.criaEditoraDAO().buscar(resultado.getInt(9)),
+                        DAOFactory.criaSubgeneroDAO().buscar(resultado.getInt(12)),
+                        DAOFactory.criaOrigemDAO().buscar(resultado.getInt(11)),
+                        DAOFactory.criaIdiomaDAO().buscar(resultado.getInt(10)),
+                        DAOFactory.criaAutorDAO().listar(resultado.getInt(1))));
+            }
+            MysqlUtil.closeConnection(connection, consulta, resultado);
+        } catch (Exception e) {
+            System.out.println("Erro ao executar filtro. Erro: " + e.getMessage());
+        }
+        return lista;
+    }
+    
+    @Override
+    public Set<Object> valores(String coluna, boolean repetidos){
+         Set<Object> lista = new HashSet<Object>();
+         
+        try {
+            connection = MysqlUtil.getConnection();
+            String sql = "select "+(repetidos==true?"distinct":"")+" "+coluna+" FROM livro";
+            PreparedStatement consulta = connection.prepareStatement(sql);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                lista.add(resultado.getObject(1));
+            }
+            MysqlUtil.closeConnection(connection, consulta, resultado);
+        } catch (Exception e) {
+            System.out.println("Erro ao listar os(as) "+coluna+" da tabela livro. Erro: " + e.getMessage());
+        }
+        return lista;
+    }
+    
+    public String arrayInIn(List<String> objects) {
+        String in = "(";
+        for (String object : objects) {
+            if (objects.indexOf(object) == objects.size() - 1) {
+                in += object + "";
+            } else {
+                in += object + ",";
+            }
+        }
+        return in+")";
     }
 }

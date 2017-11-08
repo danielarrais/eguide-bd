@@ -1,5 +1,6 @@
 package br.com.eguide.autor;
 
+import br.com.eguide.entidade.Entidade;
 import java.io.Serializable;
 import java.util.Objects;
 

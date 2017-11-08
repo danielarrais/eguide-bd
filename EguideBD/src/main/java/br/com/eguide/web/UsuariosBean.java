@@ -61,6 +61,7 @@ public class UsuariosBean implements Serializable {
             nivelAcessosSelecionados.add(nivelAcesso);
         }
         estadoEditar = true;
+        this.listaUsuarios = null;
         return null;
     }
 

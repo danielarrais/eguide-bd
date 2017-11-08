@@ -1,5 +1,6 @@
 package br.com.eguide.nivelAcesso;
 
+import br.com.eguide.entidade.Entidade;
 import java.io.Serializable;
 
 public class NivelAcesso implements Serializable {

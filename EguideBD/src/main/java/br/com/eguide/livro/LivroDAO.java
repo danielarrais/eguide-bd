@@ -4,6 +4,7 @@ package br.com.eguide.livro;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface LivroDAO {
     public void salvar(Livro livro);
@@ -13,5 +14,6 @@ public interface LivroDAO {
     public Livro buscarISBN(Integer livro);
     public Livro buscarISBN(Long livro);
     public List<Livro> listar();
-    public List<Livro> listarEspecial(Map<String, ArrayList<Object>> objects);
+    public List<Livro> filtarLivros(Map<String, ArrayList<String>> objects, Map<String, ArrayList<String>> criterios);
+    public Set<Object> valores(String coluna, boolean repetidos);
 }

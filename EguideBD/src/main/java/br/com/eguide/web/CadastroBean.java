@@ -29,7 +29,7 @@ public class CadastroBean {
             faces.addMessage(null, new FacesMessage("Já existe uma conta utilizando este e-mail!!!"));
             return null;
         } else {
-            usuario.setNivelAcesso(new NivelAcesso[]{DAOFactory.criaNivelAcessoDAO().buscar("user")});
+            usuario.addNivelAcesso(DAOFactory.criaNivelAcessoDAO().buscar("user"));
             usuarioRN.salvar(usuario);
             return "sucessocadastro";
         }

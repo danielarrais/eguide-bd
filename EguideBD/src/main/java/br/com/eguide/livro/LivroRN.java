@@ -4,6 +4,7 @@ import br.com.eguide.util.DAOFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class LivroRN {
 
@@ -42,7 +43,12 @@ public class LivroRN {
         return livroDAO.listar();
     }
 
-    public List<Livro> listaEspecial(Map<String, ArrayList<Object>> objects) {
-        return livroDAO.listarEspecial(objects);
+    public List<Livro> listaEspecial(Map<String, ArrayList<String>> objects, Map<String, ArrayList<String>> criterios) {
+        return livroDAO.filtarLivros(objects,criterios);
     }
+    
+    public Set<Object> valores(String coluna, boolean repetidos){
+        return livroDAO.valores(coluna, repetidos);
+    }
+    
 }

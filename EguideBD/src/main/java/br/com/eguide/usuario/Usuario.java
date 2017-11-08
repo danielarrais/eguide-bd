@@ -1,7 +1,10 @@
 package br.com.eguide.usuario;
 
+import br.com.eguide.entidade.Entidade;
 import br.com.eguide.nivelAcesso.NivelAcesso;
+import br.com.eguide.subgenero.Subgenero;
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -9,7 +12,6 @@ import java.util.Set;
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1991432369109352952L;
-    
     private Integer id;
     private String nome;
     private String sobrenome;
@@ -51,13 +53,11 @@ public class Usuario implements Serializable {
 
         this.nivelAcesso = nivelAcesso;
     }
-    public void setNivelAcesso(NivelAcesso[] nivelAcesso) {
+    public void addNivelAcesso(NivelAcesso nivelAcesso) {
         if (this.nivelAcesso == null) {
             this.nivelAcesso = new HashSet<NivelAcesso>();
         }
-        for (NivelAcesso nivelAcesso1 : nivelAcesso) {
-            this.nivelAcesso.add(nivelAcesso1);
-        }
+        this.nivelAcesso.add(nivelAcesso);
     }
     
 

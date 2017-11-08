@@ -5,7 +5,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
-public class Editora implements Serializable {
+public class Editora implements Serializable{
     private static final long serialVersionUID = 3603316740949131038L;
     
     private Integer id;

@@ -16,21 +16,25 @@
                         <div class="row small-3">
                             <h:form>
                                 <h:commandButton type="submit" value="Atualizar" action="#{livrosBean.atualizarResultados()}" />
-                                <h:selectManyCheckbox layout="pageDirection" converter="editoraConverter" value="#{livrosBean.editorasSelecionados}">
+                                <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.editorasSelecionados}">
                                     <h5>Editora</h5>
-                                    <f:selectItems  value="#{livrosBean.editoras}" var="editora" itemValue="#{editora}" itemLabel="#{editora.nome}"/>
+                                    <f:selectItems  value="#{livrosBean.editoras}" var="editora" itemValue="#{editora.id}" itemLabel="#{editora.nome}"/>
                                 </h:selectManyCheckbox>
-                                <h:selectManyCheckbox layout="pageDirection" converter="idiomaConverter" value="#{livrosBean.idiomasSelecionados}">
+                                <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.idiomasSelecionados}">
                                     <h5>Idioma</h5>
-                                    <f:selectItems  value="#{livrosBean.idiomas}" var="idioma" itemValue="#{idioma}" itemLabel="#{idioma.nome}"/>
+                                    <f:selectItems  value="#{livrosBean.idiomas}" var="idioma" itemValue="#{idioma.id}" itemLabel="#{idioma.nome}"/>
                                 </h:selectManyCheckbox>
-                                <h:selectManyCheckbox layout="pageDirection" converter="origemConverter" value="#{livrosBean.origensSelecionados}">
+                                <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.origensSelecionados}">
                                     <h5>Origem</h5>
-                                    <f:selectItems  value="#{livrosBean.origens}" var="origem" itemValue="#{origem}" itemLabel="#{origem.origem}"/>
+                                    <f:selectItems  value="#{livrosBean.origens}" var="origem" itemValue="#{origem.id}" itemLabel="#{origem.origem}"/>
                                 </h:selectManyCheckbox>
-                                <h:selectManyCheckbox layout="pageDirection" converter="autorConverter" value="#{livrosBean.autoresSelecionados}">
+                                <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.autoresSelecionados}">
                                     <h5>Autor</h5>
-                                    <f:selectItems  value="#{livrosBean.autores}" var="autor" itemValue="#{autor}" itemLabel="#{autor.nome}"/>
+                                    <f:selectItems  value="#{livrosBean.autores}" var="autor" itemValue="#{autor.id}" itemLabel="#{autor.nome}"/>
+                                </h:selectManyCheckbox>
+                                <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.anosSelecionados}">
+                                    <h5>Ano</h5>
+                                    <f:selectItems  value="#{livrosBean.anos}" var="ano" itemValue="#{ano}" itemLabel="#{ano}"/>
                                 </h:selectManyCheckbox>
                             </h:form>
                         </div>
@@ -41,7 +45,7 @@
                                     <h5><h:link value="#{livro.nome}" outcome="/publico/livro.xhtml?faces-redirect=true&amp;livro=#{livro.isbn13.toString()}" /></h5><br/>
                                     Autores:
                                     <ui:repeat var="autor" value="#{livro.autor}">
-                                         #{autor.nome}  
+                                        #{autor.nome}  
                                     </ui:repeat>
                                     <br/>
                                     Genero: #{livro.subgenero.nomeGenero}
