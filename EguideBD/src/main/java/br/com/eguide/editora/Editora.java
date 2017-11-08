@@ -4,19 +4,12 @@ import br.com.eguide.livro.Livro;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
 
-@Entity
 public class Editora implements Serializable {
     private static final long serialVersionUID = 3603316740949131038L;
     
-    @Id
-    @GeneratedValue
-    @Column(name = "id_editora")
     private Integer id;
-    @Column(nullable = false)
     private String nome;
-    @OneToMany(mappedBy = "editora", fetch = FetchType.LAZY)
     private List<Livro> livros;
 
     public Editora() {

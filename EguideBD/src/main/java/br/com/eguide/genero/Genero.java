@@ -4,19 +4,13 @@ import br.com.eguide.subgenero.Subgenero;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
-import javax.persistence.*;
 
-@Entity
 public class Genero implements Serializable {
 
     private static final long serialVersionUID = -3519805135626378833L;
-    @Id
-    @GeneratedValue
-    @Column(name = "id_genero")
+    
     private Integer id;
-    @Column(nullable = false)
     private String nome;
-    @OneToMany(mappedBy = "genero", fetch = FetchType.LAZY)
     private List<Subgenero> subgeneros;
 
     public Genero() {

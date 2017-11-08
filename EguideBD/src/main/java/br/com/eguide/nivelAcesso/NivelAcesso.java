@@ -1,22 +1,13 @@
 package br.com.eguide.nivelAcesso;
 
 import java.io.Serializable;
-import javax.persistence.*;
 
-@Entity
 public class NivelAcesso implements Serializable {
 
     private static final long serialVersionUID = 1683510015743864728L;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id_nivel")
     private Integer id;
-
-    @Column(nullable = false)
     private String nivel;
-
-    @Column(nullable = false)
     private String descricao;
 
     public NivelAcesso() {

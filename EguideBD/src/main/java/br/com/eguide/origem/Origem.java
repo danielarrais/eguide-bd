@@ -3,18 +3,12 @@ package br.com.eguide.origem;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.*;
 
-@Entity
 public class Origem implements Serializable {
     
     private static final long serialVersionUID = -2152593367233506364L;
     
-    @Id
-    @GeneratedValue
-    @Column(name = "id_origem")
     private Integer id;
-    @Column(length = 25,nullable = false)
     private String origem;
 
     public Origem() {

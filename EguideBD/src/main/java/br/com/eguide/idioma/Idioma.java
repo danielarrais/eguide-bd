@@ -2,20 +2,13 @@ package br.com.eguide.idioma;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.*;
 
-@Entity
 public class Idioma extends Object implements Serializable {
 
     private static final long serialVersionUID = -5387059360431515899L;
 
-    @Id
-    @GeneratedValue
-    @Column(name = "id_idioma")
     private Integer id;
-    @Column(length = 30, nullable = false)
     private String nome;
-    @Column(length = 10, nullable = false)
     private String sigla;
 
     public Idioma() {

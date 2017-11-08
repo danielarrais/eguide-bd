@@ -3,20 +3,12 @@ package br.com.eguide.subgenero;
 import br.com.eguide.genero.Genero;
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.*;
 
-@Entity
 public class Subgenero implements Serializable {
 
     private static final long serialVersionUID = 8265675426430422192L;
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id_subgenero")
     private Integer id;
-    @Column(nullable = false)
     private String nome;
-    @ManyToOne
     private Genero genero;
 
     public Subgenero() {
