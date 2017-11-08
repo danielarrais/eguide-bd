@@ -128,7 +128,7 @@ public class LivrosBean implements Serializable {
 //            restricoes.put("subgenero", new ArrayList<Object>(subgenerosSelecionados));
 //        }
         
-        return new LivroRN().listaEspecial(restricoes);
+        return new LivroRN().listar();
     }
 
     public void setLivros(List<Livro> livros) {

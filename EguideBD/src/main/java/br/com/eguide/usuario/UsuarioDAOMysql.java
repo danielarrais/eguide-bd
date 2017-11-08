@@ -1,7 +1,5 @@
 package br.com.eguide.usuario;
 
-import br.com.eguide.nivelAcesso.NivelAcesso;
-import br.com.eguide.subgenero.Subgenero;
 import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
@@ -10,16 +8,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import org.eclipse.persistence.internal.oxm.schema.model.Restriction;
-import org.hibernate.FetchMode;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
-public class UsuarioDAOHibernate implements UsuarioDAO {
+public class UsuarioDAOMysql implements UsuarioDAO {
 
     private Connection connection;
 

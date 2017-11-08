@@ -10,6 +10,7 @@ import br.com.eguide.genero.Genero;
 import br.com.eguide.genero.GeneroDAO;
 import br.com.eguide.genero.GeneroDAOMysql;
 import br.com.eguide.idioma.*;
+import br.com.eguide.livro.Livro;
 import br.com.eguide.livro.LivroDAO;
 import br.com.eguide.livro.LivroDAOHibernate;
 import br.com.eguide.nivelAcesso.NivelAcesso;
@@ -29,7 +30,7 @@ import java.util.Set;
 public class DAOFactory {
 
     public static UsuarioDAO criaUsuarioDAO() {
-        UsuarioDAOHibernate usuarioDAO = new UsuarioDAOHibernate();
+        UsuarioDAOMysql usuarioDAO = new UsuarioDAOMysql();
         return usuarioDAO;
     }
 
@@ -129,7 +130,6 @@ public class DAOFactory {
 //        nivelAcessoDAO.salvar(e);
 //        e = nivelAcessoDAO.buscar("user");
 //        System.out.println("ID: " + e.getId() + " Nivel: " + e.getNivel() + " Descrição: " + e.getDescricao());
-
 //        e.setNivel("GOTibriano");
 //        nivelAcessoDAO.atualizar(e);
 //        nivelAcessoDAO.excluir(e);
@@ -161,12 +161,11 @@ public class DAOFactory {
 //           System.out.println("ID: "+arg.getId()+" Subgenero: "+arg.getNome());
 //        }
         //Testes SubgeneroDAO
-        UsuarioDAO usuarioDAO = criaUsuarioDAO();
-//        Set<NivelAcesso> nivelAcessos = new HashSet<NivelAcesso>(DAOFactory.criaNivelAcessoDAO().listar());
-        Usuario e = null;
+//        UsuarioDAO usuarioDAO = criaUsuarioDAO();
+//        Usuario e = null;
 //        usuarioDAO.salvar(e);
-        e = usuarioDAO.buscar(24);
-        DAOFactory.criaNivelAcessoDAO().exluirNiveis(e);
+//        e = usuarioDAO.buscar(1);
+//        DAOFactory.criaNivelAcessoDAO().exluirNiveis(e);
 //        e = usuarioDAO.buscarPorEmail("lucas@gmail.com");
 //        System.out.println(e.getNome());
 //        for (NivelAcesso arg : DAOFactory.criaNivelAcessoDAO().listar()) {
@@ -181,5 +180,11 @@ public class DAOFactory {
 //        for (Usuario arg : usuarioDAO.listar()) {
 //           System.out.println("ID: "+arg.getId()+" Nome: "+arg.getNome());
 //        }
+        Livro e = DAOFactory.criaLivroDAO().buscar(1);
+        System.out.println(e);
+        for (Autor arg : e.getAutor()) {
+           System.out.println("ID: "+arg.getId()+" Nome: "+arg.getNome());
+        }
+
+        }
     }
-}

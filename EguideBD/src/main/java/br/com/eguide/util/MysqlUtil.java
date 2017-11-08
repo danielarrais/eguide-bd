@@ -7,16 +7,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.SessionFactory;
 
 public class MysqlUtil {
 
     private static String DRIVER = "com.mysql.jdbc.Driver";
-    private static String URL = "jdbc:mysql://localhost:3306/eguide?useTimezone&serverTimezone=UTC";
+    private static String URL = "jdbc:mysql://localhost:3306/eguide?useTimezone&serverTimezone=UTC&useSSL=false";
     private static String USUARIO = "root";
     private static String SENHA = "root";
 

@@ -1,6 +1,5 @@
 package br.com.eguide.nivelAcesso;
 
-import br.com.eguide.idioma.Idioma;
 import br.com.eguide.usuario.Usuario;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
@@ -10,8 +9,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.hibernate.Query;
-import org.hibernate.Session;
 
 public class NivelAcessoDAOMysql implements NivelAcessoDAO {
 

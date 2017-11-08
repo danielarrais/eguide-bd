@@ -4,9 +4,6 @@ import br.com.eguide.util.DAOFactory;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.hibernate.Criteria;
-import org.hibernate.criterion.Criterion;
-import org.hibernate.criterion.Restrictions;
 
 public class LivroRN {
 
@@ -21,11 +18,11 @@ public class LivroRN {
     }
 
     public Livro buscarISBN10(Integer ISBN) {
-        return livroDAO.buscarISBN10(ISBN);
+        return livroDAO.buscarISBN(ISBN);
     }
 
     public Livro buscarISBN13(Long ISBN) {
-        return livroDAO.buscarISBN13(ISBN);
+        return livroDAO.buscarISBN(ISBN);
     }
 
     public void salvar(Livro livro) {

@@ -1,48 +1,22 @@
 package br.com.eguide.usuario;
 
 import br.com.eguide.nivelAcesso.NivelAcesso;
-import br.com.eguide.util.MysqlUtil;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.Objects;
 import java.util.Set;
-import javax.persistence.*;
-import org.hibernate.Session;
 
-@Entity
 public class Usuario implements Serializable {
 
     private static final long serialVersionUID = 1991432369109352952L;
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id_usuario")
+    
     private Integer id;
-    @Column(length = 30, nullable = false)
     private String nome;
-    @Column(length = 40, nullable = true)
     private String sobrenome;
-    @Column(length = 100, nullable = false, unique = true)
     private String email;
-    @Column(length = 100, nullable = true)
     private String emailSec;
-    @Column(length = 40, nullable = false)
     private String senha;
-    @Temporal(TemporalType.DATE)
-    @Column(nullable = false)
     private Date nascimento;
-
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "nivel_usuario",
-            joinColumns = {
-                @JoinColumn(
-                        name = "id_usuario",
-                        referencedColumnName = "id_usuario")
-            },
-            inverseJoinColumns = {
-                @JoinColumn(name = "id_nivel")})
     private Set<NivelAcesso> nivelAcesso = new HashSet<NivelAcesso>();
 
     public Usuario() {

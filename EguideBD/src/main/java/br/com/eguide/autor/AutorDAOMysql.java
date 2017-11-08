@@ -1,5 +1,6 @@
 package br.com.eguide.autor;
 
+import br.com.eguide.livro.Livro;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -88,9 +89,29 @@ public class AutorDAOMysql implements AutorDAO {
             }
             MysqlUtil.closeConnection(connection, consulta, resultado);
         } catch (Exception e) {
-            System.out.println("Erro ao listar autores. Erro: " + e.getMessage());
+            System.out.println("Erro ao listar autores do livro. Erro: " + e.getMessage());
         }
         return lista;
     }
 
+    @Override
+    public List<Autor> listar(int livro) {
+        List<Autor> lista = new ArrayList<Autor>();
+        try {
+            connection = MysqlUtil.getConnection();
+            String sql = "select na1.* from livro u "
+                    + "inner join autor_livro nu1 on u.id_livro = nu1.id_livro "
+                    + "inner join autor na1 on nu1.id_autor = na1.id_autor and u.id_livro = ?";
+            PreparedStatement consulta = connection.prepareStatement(sql);
+            consulta.setInt(1, livro);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                lista.add(new Autor(resultado.getInt(1), resultado.getString(2), resultado.getString(3)));
+            }
+            MysqlUtil.closeConnection(connection, consulta, resultado);
+        } catch (Exception e) {
+            System.out.println("Erro ao listar autores. Erro: " + e.getMessage());
+        }
+        return lista;
+    }
 }

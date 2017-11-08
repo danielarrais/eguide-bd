@@ -2,7 +2,7 @@ package br.com.eguide.web;
 
 import br.com.eguide.nivelAcesso.NivelAcesso;
 import br.com.eguide.usuario.Usuario;
-import br.com.eguide.usuario.UsuarioDAOHibernate;
+import br.com.eguide.usuario.UsuarioDAOMysql;
 import br.com.eguide.usuario.UsuarioRN;
 import java.util.HashSet;
 import java.util.List;

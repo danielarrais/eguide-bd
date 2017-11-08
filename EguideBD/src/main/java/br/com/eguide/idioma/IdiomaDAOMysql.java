@@ -1,14 +1,11 @@
 package br.com.eguide.idioma;
 
-import br.com.eguide.genero.Genero;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import org.hibernate.Query;
-import org.hibernate.Session;
 
 public class IdiomaDAOMysql implements IdiomaDAO {
 

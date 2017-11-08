@@ -2,23 +2,13 @@ package br.com.eguide.autor;
 
 import java.io.Serializable;
 import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
 
-@Entity
 public class Autor implements Serializable {
 
     private static final long serialVersionUID = -2490324874783531586L;
-
-    @Id
-    @GeneratedValue
-    @Column(name = "id_autor")
+   
     private Integer id;
-    @Column(length = 80, nullable = false)
     private String nome;
-    @Column(length = 30, nullable = false)
     private String nomeAbnt;
 
     public Autor() {

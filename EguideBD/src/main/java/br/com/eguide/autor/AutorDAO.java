@@ -9,4 +9,5 @@ public interface AutorDAO {
     public void excluir(Autor autor);
     public Autor buscar(Integer autor);
     public List<Autor> listar();
+    public List<Autor> listar(int livro);
 }
