@@ -235,6 +235,6 @@ public class Livro implements Serializable {
 
     @Override
     public String toString() {
-        return "Livro{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", ano=" + ano + ", isbn10=" + isbn10 + ", isbn13=" + isbn13 + ", paginas=" + paginas + ", edicao=" + edicao + ", editora=" + editora + ", subgenero=" + subgenero.getNome() + ", origem=" + origem.getOrigem() + ", idioma=" + idioma.getNome() + ", autor=" + autor + '}';
+        return "Livro{" + "id=" + id + ", nome=" + nome + ", descricao=" + descricao + ", ano=" + ano + ", isbn10=" + isbn10 + ", isbn13=" + isbn13 + ", paginas=" + paginas + ", edicao=" + edicao + ", editora=" + editora + ", subgenero=" + subgenero.getNomeSubgenero() + ", origem=" + origem.getOrigem() + ", idioma=" + idioma.getNome() + ", autor=" + autor + '}';
     }
 }

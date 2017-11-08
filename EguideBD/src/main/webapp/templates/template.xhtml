@@ -77,11 +77,11 @@
                                         <a href="#0">Categorias</a>
                                         <ul class="submenu menu vertical" data-submenu="">
                                             <ui:repeat value="#{templateBean.menuGeneros}" var="genero">
-                                                <li><a href="#">#{genero.nome}</a>
+                                                <li><a href="#">#{genero.nomeGenero}</a>
                                                     <h:panelGroup rendered="#{not empty genero.subgeneros}">
                                                         <ul class="submenu menu vertical" data-submenu="">
                                                             <ui:repeat  value="#{genero.subgeneros}" var="subgenero">
-                                                                <li><a href="#">#{subgenero.nome}</a></li>
+                                                                <li><a href="#">#{subgenero.nomeGenero}</a></li>
                                                             </ui:repeat>
                                                         </ul>
                                                     </h:panelGroup>

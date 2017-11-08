@@ -3,29 +3,21 @@ package br.com.eguide.util;
 import br.com.eguide.autor.Autor;
 import br.com.eguide.autor.AutorDAO;
 import br.com.eguide.autor.AutorDAOMysql;
-import br.com.eguide.editora.Editora;
 import br.com.eguide.editora.EditoraDAO;
 import br.com.eguide.editora.EditoraDAOMysql;
-import br.com.eguide.genero.Genero;
 import br.com.eguide.genero.GeneroDAO;
 import br.com.eguide.genero.GeneroDAOMysql;
 import br.com.eguide.idioma.*;
 import br.com.eguide.livro.Livro;
 import br.com.eguide.livro.LivroDAO;
 import br.com.eguide.livro.LivroDAOHibernate;
-import br.com.eguide.nivelAcesso.NivelAcesso;
 import br.com.eguide.nivelAcesso.NivelAcessoDAO;
 import br.com.eguide.nivelAcesso.NivelAcessoDAOMysql;
-import br.com.eguide.origem.Origem;
 import br.com.eguide.origem.OrigemDAO;
 import br.com.eguide.origem.OrigemDAOMysql;
-import br.com.eguide.subgenero.Subgenero;
 import br.com.eguide.subgenero.SubgeneroDAO;
 import br.com.eguide.subgenero.SubgeneroDAOMysql;
 import br.com.eguide.usuario.*;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 public class DAOFactory {
 

@@ -27,7 +27,7 @@ public class LivroDAOHibernate implements LivroDAO {
             cadastro.setInt(6, livro.getEditora().getId());
             cadastro.setInt(7, livro.getIdioma().getId());
             cadastro.setInt(8, livro.getOrigem().getId());
-            cadastro.setInt(9, livro.getSubgenero().getId());
+            cadastro.setInt(9, livro.getSubgenero().getIdSub());
             cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class LivroDAOHibernate implements LivroDAO {
             cadastro.setInt(7, livro.getEditora().getId());
             cadastro.setInt(8, livro.getIdioma().getId());
             cadastro.setInt(9, livro.getOrigem().getId());
-            cadastro.setInt(10, livro.getSubgenero().getId());
+            cadastro.setInt(10, livro.getSubgenero().getIdSub());
             cadastro.setInt(11, livro.getId());
             cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);

@@ -1,5 +1,6 @@
 package br.com.eguide.genero;
 
+import br.com.eguide.subgenero.Subgenero;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,7 +18,7 @@ public class GeneroDAOMysql implements GeneroDAO {
             connection = MysqlUtil.getConnection();
             String sql = "INSERT INTO `genero` (`nome`) VALUES (?)";
             PreparedStatement cadastro = connection.prepareStatement(sql);
-            cadastro.setString(1, genero.getNome());
+            cadastro.setString(1, genero.getNomeGenero());
             cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);
         } catch (Exception e) {
@@ -31,7 +32,7 @@ public class GeneroDAOMysql implements GeneroDAO {
             connection = MysqlUtil.getConnection();
             String sql = "UPDATE `genero` SET `nome` = ? WHERE `id_genero` = ?";
             PreparedStatement cadastro = connection.prepareStatement(sql);
-            cadastro.setString(1, genero.getNome());
+            cadastro.setString(1, genero.getNomeGenero());
             cadastro.setInt(2, genero.getId());
             cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);
@@ -55,13 +56,18 @@ public class GeneroDAOMysql implements GeneroDAO {
     }
 
     @Override
-    public Genero buscar(Integer generoID) {
+    public Genero buscar(Integer id, boolean criterio) {
         Genero genero = null;
+        String sql = "";
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "SELECT * FROM genero WHERE id_genero = ?";
+            if (criterio) {
+                sql = "SELECT g.* FROM genero g, subgenero s where s.genero_id_genero = g.id_genero and s.id_subgenero=?";
+            }else{
+                sql = "SELECT * FROM genero WHERE id_genero = ?";
+            }
             PreparedStatement consulta = connection.prepareStatement(sql);
-            consulta.setInt(1, generoID);
+            consulta.setInt(1, id);
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
                 genero = new Genero(resultado.getInt(1), resultado.getString(2));
@@ -71,6 +77,11 @@ public class GeneroDAOMysql implements GeneroDAO {
             System.out.println("Erro ao buscar genero. Erro: " + e.getMessage());
         }
         return genero;
+    }
+
+    @Override
+    public Genero buscar(Integer generoID) {
+        return buscar(generoID, Genero.GENERO);
     }
 
     @Override

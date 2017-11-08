@@ -110,7 +110,7 @@ public class CadastroLivroBean implements Serializable {
         if (generos == null) {
             generos = new ArrayList<SelectItem>();
             for (Genero genero : generoRN.listar()) {
-                generos.add(new SelectItem(genero.getId(), genero.getNome()));
+                generos.add(new SelectItem(genero.getId(), genero.getNomeGenero()));
             }
         }
         return generos;
@@ -211,7 +211,7 @@ public class CadastroLivroBean implements Serializable {
                             buscar(idGeneroSelecionado).
                             getSubgeneros();
             for (Subgenero subgenero : sub) {
-                subgeneros.add(new SelectItem(subgenero.getId(), subgenero.getNome()));
+                subgeneros.add(new SelectItem(subgenero.getIdSub(), subgenero.getNomeSubgenero()));
             }
         }
         return subgeneros;

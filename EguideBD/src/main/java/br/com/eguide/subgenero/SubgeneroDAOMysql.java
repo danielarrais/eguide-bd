@@ -1,6 +1,8 @@
 package br.com.eguide.subgenero;
 
+import br.com.eguide.genero.Genero;
 import br.com.eguide.origem.Origem;
+import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,8 +20,8 @@ public class SubgeneroDAOMysql implements SubgeneroDAO {
             connection = MysqlUtil.getConnection();
             String sql = "INSERT INTO `subgenero` (`nome`, `genero_id_genero`) VALUES (?, ?)";
             PreparedStatement cadastro = connection.prepareStatement(sql);
-            cadastro.setString(1, subgenero.getNome());
-            cadastro.setInt(2, subgenero.getGenero().getId());
+            cadastro.setString(1, subgenero.getNomeSubgenero());
+            cadastro.setInt(2, subgenero.getId());
             cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);
         } catch (Exception e) {
@@ -33,9 +35,9 @@ public class SubgeneroDAOMysql implements SubgeneroDAO {
             connection = MysqlUtil.getConnection();
             String sql = "UPDATE `subgenero` SET `nome` = ?, `genero_id_genero` = ? WHERE `id_subgenero` = ?";
             PreparedStatement cadastro = connection.prepareStatement(sql);
-            cadastro.setString(1, subgenero.getNome());
-            cadastro.setInt(2, subgenero.getGenero().getId());
-            cadastro.setInt(3, subgenero.getId());
+            cadastro.setString(1, subgenero.getNomeSubgenero());
+            cadastro.setInt(2, subgenero.getId());
+            cadastro.setInt(3, subgenero.getIdSub());
             cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);
         } catch (Exception e) {
@@ -49,7 +51,7 @@ public class SubgeneroDAOMysql implements SubgeneroDAO {
             connection = MysqlUtil.getConnection();
             String sql = "DELETE FROM `subgenero` WHERE id_subgenero = ?";
             PreparedStatement cadastro = connection.prepareStatement(sql);
-            cadastro.setInt(1, subgenero.getId());
+            cadastro.setInt(1, subgenero.getIdSub());
             cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);
         } catch (Exception e) {
@@ -67,7 +69,7 @@ public class SubgeneroDAOMysql implements SubgeneroDAO {
             consulta.setInt(1, subgeneroID);
             ResultSet resultado = consulta.executeQuery();
             if (resultado.next()) {
-                subgenero = new Subgenero(resultado.getInt(1), resultado.getString(2));
+                subgenero = new Subgenero(resultado.getInt(1), resultado.getString(2), DAOFactory.criaGeneroDAO().buscar(resultado.getInt(1), Genero.SUBGENERO));
             }
             MysqlUtil.closeConnection(connection, consulta, resultado);
         } catch (Exception e) {

@@ -4,57 +4,52 @@ import br.com.eguide.genero.Genero;
 import java.io.Serializable;
 import java.util.Objects;
 
-public class Subgenero implements Serializable {
+public class Subgenero extends Genero implements Serializable {
 
     private static final long serialVersionUID = 8265675426430422192L;
-    private Integer id;
-    private String nome;
-    private Genero genero;
+    private Integer idSub;
+    private String nomeSubgenero;
 
     public Subgenero() {
     }
 
-    public Subgenero(String nome) {
-        this.nome = nome;
-        this.genero = genero;
+    public Subgenero(String nome, Genero genero) {
+        super(genero.getId(), genero.getNomeGenero());
+        this.nomeSubgenero = nome;
     }
 
-    public Subgenero(Integer id, String nome) {
-        this.id = id;
-        this.nome = nome;
-        this.genero = genero;
+    public Subgenero(Integer id, String nome, Genero genero) {
+        super(genero.getId(), genero.getNomeGenero());
+        this.idSub = id;
+        this.nomeSubgenero = nome;
     }
 
-    public Integer getId() {
-        return id;
+    public Subgenero(Integer idSub, String nome) {
+        this.idSub = idSub;
+        this.nomeSubgenero = nome;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public Integer getIdSub() {
+        return idSub;
     }
 
-    public String getNome() {
-        return nome;
+    public void setIdSub(Integer idSub) {
+        this.idSub = idSub;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public String getNomeSubgenero() {
+        return nomeSubgenero;
     }
 
-    public Genero getGenero() {
-        return genero;
-    }
-
-    public void setGenero(Genero genero) {
-        this.genero = genero;
+    public void setNomeSubgenero(String nomeSubgenero) {
+        this.nomeSubgenero = nomeSubgenero;
     }
 
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.nome);
-        hash = 79 * hash + Objects.hashCode(this.genero);
+        hash = 79 * hash + Objects.hashCode(this.idSub);
+        hash = 79 * hash + Objects.hashCode(this.nomeSubgenero);
         return hash;
     }
 
@@ -70,13 +65,10 @@ public class Subgenero implements Serializable {
             return false;
         }
         final Subgenero other = (Subgenero) obj;
-        if (!Objects.equals(this.nome, other.nome)) {
+        if (!Objects.equals(this.nomeSubgenero, other.nomeSubgenero)) {
             return false;
         }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        if (!Objects.equals(this.genero, other.genero)) {
+        if (!Objects.equals(this.idSub, other.idSub)) {
             return false;
         }
         return true;

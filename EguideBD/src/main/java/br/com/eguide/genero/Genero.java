@@ -10,19 +10,22 @@ public class Genero implements Serializable {
     private static final long serialVersionUID = -3519805135626378833L;
     
     private Integer id;
-    private String nome;
+    private String nomeGenero;
     private List<Subgenero> subgeneros;
+    
+    public static final boolean SUBGENERO = true;
+    public static final boolean GENERO = false;
 
     public Genero() {
     }
 
     public Genero(String nome) {
-        this.nome = nome;
+        this.nomeGenero = nome;
     }
 
     public Genero(Integer id, String nome) {
         this.id = id;
-        this.nome = nome;
+        this.nomeGenero = nome;
     }
 
     public Integer getId() {
@@ -33,12 +36,12 @@ public class Genero implements Serializable {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getNomeGenero() {
+        return nomeGenero;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setNomeGenero(String nomeGenero) {
+        this.nomeGenero = nomeGenero;
     }
 
     public List<Subgenero> getSubgeneros() {
@@ -53,7 +56,7 @@ public class Genero implements Serializable {
     public int hashCode() {
         int hash = 7;
         hash = 73 * hash + Objects.hashCode(this.id);
-        hash = 73 * hash + Objects.hashCode(this.nome);
+        hash = 73 * hash + Objects.hashCode(this.nomeGenero);
         return hash;
     }
 
@@ -69,7 +72,7 @@ public class Genero implements Serializable {
             return false;
         }
         final Genero other = (Genero) obj;
-        if (!Objects.equals(this.nome, other.nome)) {
+        if (!Objects.equals(this.nomeGenero, other.nomeGenero)) {
             return false;
         }
         if (!Objects.equals(this.id, other.id)) {

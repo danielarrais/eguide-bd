@@ -26,7 +26,7 @@ public class SubgeneroConverter implements Converter{
     public String getAsString(FacesContext fc, UIComponent uic, Object o) {
         if (o!=null) {
             Subgenero subgenero = (Subgenero) o;
-            return subgenero.getId().toString();
+            return subgenero.getIdSub().toString();
         }
         return "";
     }

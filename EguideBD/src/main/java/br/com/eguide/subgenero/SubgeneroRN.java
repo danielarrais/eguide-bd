@@ -13,7 +13,7 @@ public class SubgeneroRN {
         return origemDAO.buscar(id);
     }
     public void salvar(Subgenero origem){
-        Integer codigo = origem.getId();
+        Integer codigo = origem.getIdSub();
         if (codigo==null || codigo==0) {
             origemDAO.salvar(origem);
         }else{
