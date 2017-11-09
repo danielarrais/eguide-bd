@@ -9,8 +9,6 @@ import br.com.eguide.autor.Autor;
 import br.com.eguide.autor.AutorRN;
 import br.com.eguide.editora.Editora;
 import br.com.eguide.editora.EditoraRN;
-import br.com.eguide.entidade.Entidade;
-import br.com.eguide.genero.Genero;
 import br.com.eguide.genero.GeneroRN;
 import br.com.eguide.idioma.Idioma;
 import br.com.eguide.idioma.IdiomaRN;

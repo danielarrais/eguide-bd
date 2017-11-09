@@ -1,6 +1,5 @@
 package br.com.eguide.idioma;
 
-import br.com.eguide.entidade.Entidade;
 import java.io.Serializable;
 import java.util.Objects;
 

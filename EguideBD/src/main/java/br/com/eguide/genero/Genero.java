@@ -1,6 +1,5 @@
 package br.com.eguide.genero;
 
-import br.com.eguide.entidade.Entidade;
 import br.com.eguide.subgenero.Subgenero;
 import java.io.Serializable;
 import java.util.List;

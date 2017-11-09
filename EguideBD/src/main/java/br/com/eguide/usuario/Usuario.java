@@ -1,10 +1,7 @@
 package br.com.eguide.usuario;
 
-import br.com.eguide.entidade.Entidade;
 import br.com.eguide.nivelAcesso.NivelAcesso;
-import br.com.eguide.subgenero.Subgenero;
 import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
