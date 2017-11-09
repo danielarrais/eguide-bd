@@ -1,6 +1,5 @@
 package br.com.eguide.autor;
 
-import br.com.eguide.livro.Livro;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
