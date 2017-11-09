@@ -2,7 +2,6 @@ package br.com.eguide.livro;
 
 import br.com.eguide.autor.Autor;
 import br.com.eguide.editora.Editora;
-import br.com.eguide.entidade.Entidade;
 import br.com.eguide.idioma.Idioma;
 import br.com.eguide.origem.Origem;
 import br.com.eguide.subgenero.Subgenero;

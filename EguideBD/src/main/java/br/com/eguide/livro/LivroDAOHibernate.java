@@ -1,7 +1,5 @@
 package br.com.eguide.livro;
 
-import br.com.eguide.autor.Autor;
-import br.com.eguide.entidade.Entidade;
 import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
