@@ -15,6 +15,8 @@ import br.com.eguide.nivelAcesso.NivelAcessoDAO;
 import br.com.eguide.nivelAcesso.NivelAcessoDAOMysql;
 import br.com.eguide.origem.OrigemDAO;
 import br.com.eguide.origem.OrigemDAOMysql;
+import br.com.eguide.statuslivro.StatusLivroDAO;
+import br.com.eguide.statuslivro.StatusLivroDAOMysql;
 import br.com.eguide.subgenero.SubgeneroDAO;
 import br.com.eguide.subgenero.SubgeneroDAOMysql;
 import br.com.eguide.usuario.*;
@@ -59,6 +61,10 @@ public class DAOFactory {
     public static SubgeneroDAO criaSubgeneroDAO() {
         SubgeneroDAOMysql subgeneroDAO = new SubgeneroDAOMysql();
         return subgeneroDAO;
+    }
+    public static StatusLivroDAO criaStatusLivroDAO() {
+        StatusLivroDAOMysql statusLivroDAOMysql = new StatusLivroDAOMysql();
+        return statusLivroDAOMysql;
     }
 
     public static NivelAcessoDAO criaNivelAcessoDAO() {

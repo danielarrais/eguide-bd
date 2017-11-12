@@ -15,6 +15,10 @@ public class LivroBean {
     private Livro livro;
     private List<Autor> autores;
     private String isbn;
+    
+    public String marcar(int status, int idUsuario){
+        return  null;
+    }
 
     public Livro getLivro() {
         LivroRN livroRN = new LivroRN();
@@ -22,7 +26,12 @@ public class LivroBean {
         if (livro == null) {
             codigo = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("livro");
         }
-        return livroRN.buscarISBN13(Long.valueOf(codigo));
+        if (codigo == null) {
+            return null;
+        }else{
+            return livroRN.buscarISBN13(Long.valueOf(codigo));
+        }
+        
     }
 
     public String getIsbn() {

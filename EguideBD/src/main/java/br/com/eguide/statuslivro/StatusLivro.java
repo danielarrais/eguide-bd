@@ -13,6 +13,10 @@ public class StatusLivro {
 
     private Integer id;
     private String nome;
+    
+    public static final  int LENDO = 1;
+    public static final  int LIDO = 2;
+    public static final  int QUEROLER = 3;
 
     public StatusLivro() {
     }

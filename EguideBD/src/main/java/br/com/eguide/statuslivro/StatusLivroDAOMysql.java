@@ -6,13 +6,16 @@
 package br.com.eguide.statuslivro;
 
 import br.com.eguide.genero.Genero;
+import br.com.eguide.livro.Livro;
 import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -103,24 +106,49 @@ public class StatusLivroDAOMysql implements StatusLivroDAO {
     }
 
     @Override
-    public List<StatusLivro> listarPorUsuario(Integer usuario) {
-        List<StatusLivro> lista = new ArrayList<StatusLivro>();
+    public Map<Integer, ArrayList<Livro>> listarPorUsuario(Integer usuario) {
+        ArrayList<Livro> livrosLidos = new ArrayList<Livro>();
+        ArrayList<Livro> livrosQuero = new ArrayList<Livro>();
+        ArrayList<Livro> livrosLendo = new ArrayList<Livro>();
+        Map<Integer, ArrayList<Livro>> statusLivros = new HashMap<Integer, ArrayList<Livro>>();
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "SELECT distinct STATUSLIVRO.*, ESTANTE.*, USUARIO.* FROM estante ESTANTE\n"
-                    + "INNER JOIN statuslivro STATUSLIVRO on ESTANTE.id_status = STATUSLIVRO.id_status\n"
-                    + "INNER JOIN usuario USUARIO on ESTANTE.id_usuario = USUARIO.id_usuario\n"
+            String sql = "SELECT distinct STATUSLIVRO.*, LIVRO.* FROM estante ESTANTE "
+                    + "INNER JOIN statuslivro STATUSLIVRO on ESTANTE.id_status = STATUSLIVRO.id_status "
+                    + "INNER JOIN usuario USUARIO on ESTANTE.id_usuario = USUARIO.id_usuario "
                     + "INNER JOIN livro LIVRO on ESTANTE.id_livro = LIVRO.id_livro AND USUARIO.id_usuario = ?";
             PreparedStatement consulta = connection.prepareStatement(sql);
+            consulta.setInt(1, usuario);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
-                lista.add(new StatusLivro(resultado.getInt(1), resultado.getString(2)));
+                Livro livro = new Livro();
+                livro.setId(resultado.getInt(3));
+                livro.setIsbn13(resultado.getLong(8));
+                livro.setNome(resultado.getString(9));
+                livro.setAutor(DAOFactory.criaAutorDAO().listar(resultado.getInt(1)));
+                switch (resultado.getInt(1)) {
+                    case StatusLivro.LENDO:
+                        livrosLendo.add(livro);
+                    case StatusLivro.LIDO:
+                        livrosLidos.add(livro);
+                    case StatusLivro.QUEROLER:
+                        livrosQuero.add(livro);
+                }
             }
+            statusLivros.put(StatusLivro.LENDO, livrosLendo);
+            statusLivros.put(StatusLivro.LIDO, livrosLidos);
+            statusLivros.put(StatusLivro.QUEROLER, livrosQuero);
             MysqlUtil.closeConnection(connection, consulta, resultado);
         } catch (Exception e) {
             System.out.println("Erro ao listar status de livros do usuario. Erro: " + e.getMessage());
         }
-        return lista;
+        return statusLivros;
+    }
+    
+    public static void main(String[] args) {
+        StatusLivroRN livroRN = new StatusLivroRN();
+        
+        System.out.println(livroRN.listarPorUsuario(1).get(1).get(0).getNome());
     }
 
 }
