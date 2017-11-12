@@ -37,8 +37,8 @@
                         </h:panelGroup>
 
                         <h:outputLabel value="E-mail:" for="email"/>
-                        <h:selectManyCheckbox converter="nivelConverter" value="#{usuariosBean.nivelAcessosSelecionados}">
-                            <f:selectItems  value="#{usuariosBean.nivelAcessos}" var="nivel1" itemValue="#{nivel1}" itemLabel="#{nivel1.descricao}"/>
+                        <h:selectManyCheckbox  converter="nivelConverter" value="#{usuariosBean.nivelAcessosSelecionados}">
+                            <f:selectItems itemDisabled="#{nivel.nivel.equals('user')}" value="#{usuariosBean.nivelAcessos}" var="nivel" itemValue="#{nivel}" itemLabel="#{nivel.descricao}"/> 
                         </h:selectManyCheckbox>
                         <h:outputLabel value=""/>
                         <h:commandButton action="#{usuariosBean.atualizarUsuario}" value="Atualizar"/>

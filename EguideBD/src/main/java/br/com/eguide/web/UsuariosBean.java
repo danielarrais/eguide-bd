@@ -67,9 +67,11 @@ public class UsuariosBean implements Serializable {
 
     public String atualizarUsuario() {
         UsuarioRN usuarioRN = new UsuarioRN();
+        nivelAcessosSelecionados.add(getNivelAcessos().get(1));
         usuarioEditar.setNivelAcesso(nivelAcessosSelecionados);
         usuarioRN.salvar(usuarioEditar);
         usuarioEditar = null;
+        listaUsuarios = null;
         estadoEditar = false;
         return null;
     }
@@ -90,6 +92,7 @@ public class UsuariosBean implements Serializable {
         UsuarioRN usuarioRN = new UsuarioRN();
         usuarioRN.excluir(usuario);
         this.listaUsuarios = null;
+        this.estadoEditar = false;
         return null;
     }
 

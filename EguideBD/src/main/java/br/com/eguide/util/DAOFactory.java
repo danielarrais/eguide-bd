@@ -10,7 +10,7 @@ import br.com.eguide.genero.GeneroDAOMysql;
 import br.com.eguide.idioma.*;
 import br.com.eguide.livro.Livro;
 import br.com.eguide.livro.LivroDAO;
-import br.com.eguide.livro.LivroDAOHibernate;
+import br.com.eguide.livro.LivroDAOMysql;
 import br.com.eguide.nivelAcesso.NivelAcessoDAO;
 import br.com.eguide.nivelAcesso.NivelAcessoDAOMysql;
 import br.com.eguide.origem.OrigemDAO;
@@ -47,7 +47,7 @@ public class DAOFactory {
     }
 
     public static LivroDAO criaLivroDAO() {
-        LivroDAOHibernate livroDAO = new LivroDAOHibernate();
+        LivroDAOMysql livroDAO = new LivroDAOMysql();
         return livroDAO;
     }
 

@@ -27,16 +27,18 @@ public class UsuarioFilter implements Filter {
         LoginBean loginBean = (LoginBean) session.getAttribute("loginBean");
 
         String url = req.getRequestURL().toString();
+        if (loginBean == null) {
+            res.sendRedirect("/EguideBD");
+            return;
+        }
         if ((url.contains("/admin") || url.contains("/user")) && loginBean.getUsuario() == null) {
-            res.sendRedirect("/Eguide");
+            res.sendRedirect("/EguideBD");
         } else {
             try {
                 if (loginBean.isNivel("admin")) {
                     chain.doFilter(request, response);
-                } else if(loginBean.isNivel("admin")&&url.contains("/user")){
+                } else if (loginBean.isNivel("user") && url.contains("/user")) {
                     chain.doFilter(request, response);
-                }else{
-                    res.sendRedirect("/Eguide");
                 }
             } catch (Exception e) {
             }

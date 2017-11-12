@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class LivroDAOHibernate implements LivroDAO {
+public class LivroDAOMysql implements LivroDAO {
 
     private Connection connection;
 
@@ -109,7 +109,7 @@ public class LivroDAOHibernate implements LivroDAO {
 
     @Override
     public Livro buscarISBN(Integer isbn) {
-        return LivroDAOHibernate.this.buscarISBN(isbn.longValue());
+        return LivroDAOMysql.this.buscarISBN(isbn.longValue());
     }
 
     @Override

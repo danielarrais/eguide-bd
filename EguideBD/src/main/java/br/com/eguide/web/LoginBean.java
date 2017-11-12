@@ -43,7 +43,6 @@ public class LoginBean {
     }
 
     public Usuario getUsuario() {
-        UsuarioRN usuarioRN = new UsuarioRN();
         return usuario;
     }
 

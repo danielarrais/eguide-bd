@@ -133,26 +133,23 @@ public class NivelAcessoDAOMysql implements NivelAcessoDAO {
             System.out.println("Erro ao salvar niveis de acesso. Erro: " + e.getMessage());
         }
     }
+
     @Override
     public void exluirNiveis(Usuario usuario) {
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "DELETE FROM `nivel_usuario` WHERE id_usuario = ? and id_nivel = ?";
+            String sql = "DELETE FROM `nivel_usuario` WHERE id_usuario = ?";
             PreparedStatement cadastro = connection.prepareStatement(sql);
-            for (NivelAcesso nivelAcesso : usuario.getNivelAcesso()) {
-                cadastro.setInt(1, usuario.getId());
-                cadastro.setInt(2, nivelAcesso.getId());
-                cadastro.addBatch();
-            }
-            cadastro.executeBatch();
+            cadastro.setInt(1, usuario.getId());
+            cadastro.execute();
             MysqlUtil.closeConnection(connection, cadastro);
         } catch (Exception e) {
             System.out.println("Erro ao deletar niveis de acesso. Erro: " + e.getMessage());
         }
     }
-    
+
     @Override
-    public void atualizarNiveis(Usuario usuario){
+    public void atualizarNiveis(Usuario usuario) {
         exluirNiveis(usuario);
         salvarNiveis(usuario);
     }
