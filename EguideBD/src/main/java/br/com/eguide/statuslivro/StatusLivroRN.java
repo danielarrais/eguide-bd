@@ -6,6 +6,7 @@
 package br.com.eguide.statuslivro;
 
 import br.com.eguide.livro.Livro;
+import br.com.eguide.usuario.Usuario;
 import br.com.eguide.util.DAOFactory;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,5 +37,10 @@ public class StatusLivroRN {
     public Map<Integer, ArrayList<Livro>> listarPorUsuario(Integer livro) {
         return statusLivroDAO.listarPorUsuario(livro);
     }
-    
+    public void alterarStatus(Integer idUsuario, Integer idStatusLivro, Integer idLivro){
+        statusLivroDAO.alterarStatus(idUsuario, idStatusLivro, idLivro);
+    }
+    public StatusLivro buscar(Livro livro, Usuario usuario){
+        return statusLivroDAO.buscar(livro, usuario);
+    }
 }

@@ -70,7 +70,7 @@ public class EstanteBean implements Serializable {
     }
 
     public Usuario getUsuario() {
-        return ((LoginBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginBean")).usuario;
+        return LoginBean.getUsuarioLogado();
     }
 
     public void setUsuario(Usuario usuario) {

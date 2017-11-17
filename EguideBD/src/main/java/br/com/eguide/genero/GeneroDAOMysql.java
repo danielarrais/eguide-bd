@@ -1,12 +1,17 @@
 package br.com.eguide.genero;
 
 import br.com.eguide.subgenero.Subgenero;
+import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class GeneroDAOMysql implements GeneroDAO {
 
@@ -86,19 +91,21 @@ public class GeneroDAOMysql implements GeneroDAO {
 
     @Override
     public List<Genero> listar() {
-        List<Genero> lista = new ArrayList<Genero>();
+        ArrayList<Genero> listaSet = new ArrayList<Genero>();
         try {
             connection = MysqlUtil.getConnection();
             String sql = "SELECT * FROM genero";
             PreparedStatement consulta = connection.prepareStatement(sql);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
-                lista.add(new Genero(resultado.getInt(1), resultado.getString(2)));
+                Genero genero = new Genero(resultado.getInt(1), resultado.getString(2));
+                listaSet.add(genero);
+                genero.setSubgeneros(DAOFactory.criaSubgeneroDAO().listarSubgenerosGenero(genero.getId()));
             }
             MysqlUtil.closeConnection(connection, consulta, resultado);
         } catch (Exception e) {
             System.out.println("Erro ao listar generos. Erro: " + e.getMessage());
         }
-        return lista;
+        return listaSet;
     }
 }

@@ -20,6 +20,10 @@
                                     <h5>Editora</h5>
                                     <f:selectItems  value="#{livrosBean.editoras}" var="editora" itemValue="#{editora.id}" itemLabel="#{editora.nome}"/>
                                 </h:selectManyCheckbox>
+                                <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.subgenerosSelecionados}">
+                                    <h5>Subgenero</h5>
+                                    <f:selectItems  value="#{livrosBean.subgeneros}" var="subgenero" itemValue="#{subgenero.idSub}" itemLabel="#{subgenero.nomeSubgenero}"/>
+                                </h:selectManyCheckbox>
                                 <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.idiomasSelecionados}">
                                     <h5>Idioma</h5>
                                     <f:selectItems  value="#{livrosBean.idiomas}" var="idioma" itemValue="#{idioma.id}" itemLabel="#{idioma.nome}"/>
@@ -42,7 +46,10 @@
                             <h6><strong>#{livrosBean.livros.size()} livros encontrados</strong></h6>
                             <div class="row small-9" >
                                 <ui:repeat var="livro" value="#{livrosBean.livros}">
-                                    <h5><h:link value="#{livro.nome}" outcome="/publico/livro.xhtml?faces-redirect=true&amp;livro=#{livro.isbn13.toString()}" /></h5><br/>
+                                    <h5><h:link value="#{livro.nome}" outcome="/publico/livro.xhtml">
+                                            <f:param name="livro"  value="#{livro.isbn13}" />
+                                        </h:link></h5><br/>
+
                                     Autores:
                                     <ui:repeat var="autor" value="#{livro.autor}">
                                         #{autor.nome}  

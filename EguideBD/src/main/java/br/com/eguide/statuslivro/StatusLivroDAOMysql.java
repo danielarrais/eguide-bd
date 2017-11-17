@@ -7,11 +7,13 @@ package br.com.eguide.statuslivro;
 
 import br.com.eguide.genero.Genero;
 import br.com.eguide.livro.Livro;
+import br.com.eguide.usuario.Usuario;
 import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -129,10 +131,13 @@ public class StatusLivroDAOMysql implements StatusLivroDAO {
                 switch (resultado.getInt(1)) {
                     case StatusLivro.LENDO:
                         livrosLendo.add(livro);
+                        break;
                     case StatusLivro.LIDO:
                         livrosLidos.add(livro);
+                        break;
                     case StatusLivro.QUEROLER:
                         livrosQuero.add(livro);
+                        break;
                 }
             }
             statusLivros.put(StatusLivro.LENDO, livrosLendo);
@@ -144,11 +149,51 @@ public class StatusLivroDAOMysql implements StatusLivroDAO {
         }
         return statusLivros;
     }
-    
+
+    @Override
+    public void alterarStatus(Integer idUsuario, Integer idStatusLivro, Integer idLivro) {
+        try {
+            connection = MysqlUtil.getConnection();
+            String sql = "INSERT INTO estante (id_livro, id_usuario, id_status) VALUES (?,?,?) ON DUPLICATE KEY UPDATE id_status=?";
+            PreparedStatement cadastro = connection.prepareStatement(sql);
+            cadastro.setInt(1, idLivro);
+            cadastro.setInt(2, idUsuario);
+            cadastro.setInt(3, idStatusLivro);
+            cadastro.setInt(4, idStatusLivro);
+            cadastro.executeUpdate();
+            MysqlUtil.closeConnection(connection, cadastro);
+        } catch (SQLException e) {
+            System.err.println("Erro ao alterar status. Erro: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         StatusLivroRN livroRN = new StatusLivroRN();
-        
-        System.out.println(livroRN.listarPorUsuario(1).get(1).get(0).getNome());
+        livroRN.alterarStatus(1, 2, 1);
+//        System.out.println(livroRN.listarPorUsuario(1).get(1).get(0).getNome());
+    }
+
+    @Override
+    public StatusLivro buscar(Livro livro, Usuario usuario) {
+        StatusLivro status = null;
+        try {
+            connection = MysqlUtil.getConnection();
+            String sql = "SELECT distinct STATUSLIVRO.* FROM estante ESTANTE "
+                    + "INNER JOIN statuslivro STATUSLIVRO on ESTANTE.id_status = STATUSLIVRO.id_status "
+                    + "INNER JOIN usuario USUARIO on ESTANTE.id_usuario = USUARIO.id_usuario "
+                    + "INNER JOIN LIVRO on ESTANTE.id_livro = LIVRO.id_livro AND LIVRO.id_livro = ? AND USUARIO.id_usuario = ?";
+            PreparedStatement consulta = connection.prepareStatement(sql);
+            consulta.setInt(1, livro.getId());
+            consulta.setInt(2, usuario.getId());
+            ResultSet resultado = consulta.executeQuery();
+            if (resultado.next()) {
+                status = new StatusLivro(resultado.getInt(1), resultado.getString(2));
+            }
+            MysqlUtil.closeConnection(connection, consulta, resultado);
+        } catch (Exception e) {
+            System.out.println("Erro ao buscar status. Erro: " + e.getMessage());
+        }
+        return status;
     }
 
 }

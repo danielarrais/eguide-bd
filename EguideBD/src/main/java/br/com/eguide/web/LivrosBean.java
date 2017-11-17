@@ -25,6 +25,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -121,6 +122,13 @@ public class LivrosBean implements Serializable {
     }
 
     public List<String> getSubgenerosSelecionados() {
+        String subgenero = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("subgenero");
+        if (subgenero!=null) {
+            if (subgenerosSelecionados==null) {
+                subgenerosSelecionados = new ArrayList<String>();
+            }
+            subgenerosSelecionados.add(subgenero);
+        }
         return subgenerosSelecionados;
     }
 
@@ -135,9 +143,6 @@ public class LivrosBean implements Serializable {
     public void setAutoresSelecionados(ArrayList<String> autoresSelecionados) {
         this.autoresSelecionados = autoresSelecionados;
     }
-    
-    
-    
 
     public List<Livro> getLivros() {
         restricoes = new HashMap<String, ArrayList<String>>();

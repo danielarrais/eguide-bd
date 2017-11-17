@@ -1,15 +1,23 @@
 package br.com.eguide.livro;
 
+import br.com.eguide.autor.Autor;
+import br.com.eguide.editora.Editora;
+import br.com.eguide.idioma.Idioma;
+import br.com.eguide.origem.Origem;
+import br.com.eguide.subgenero.Subgenero;
 import br.com.eguide.util.DAOFactory;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class LivroDAOMysql implements LivroDAO {
 
@@ -77,34 +85,11 @@ public class LivroDAOMysql implements LivroDAO {
 
     @Override
     public Livro buscar(Integer livroID) {
-        Livro livro = null;
-        try {
-            connection = MysqlUtil.getConnection();
-            String sql = "SELECT * FROM livro WHERE id_livro = ?";
-            PreparedStatement consulta = connection.prepareStatement(sql);
-            consulta.setInt(1, livroID);
-            ResultSet resultado = consulta.executeQuery();
-            if (resultado.next()) {
-                livro = new Livro(
-                        resultado.getInt(1),
-                        resultado.getString(7),
-                        resultado.getString(3),
-                        resultado.getInt(2),
-                        resultado.getInt(5),
-                        resultado.getLong(6),
-                        resultado.getInt(8),
-                        resultado.getInt(4),
-                        DAOFactory.criaEditoraDAO().buscar(resultado.getInt(9)),
-                        DAOFactory.criaSubgeneroDAO().buscar(resultado.getInt(12)),
-                        DAOFactory.criaOrigemDAO().buscar(resultado.getInt(11)),
-                        DAOFactory.criaIdiomaDAO().buscar(resultado.getInt(10)),
-                        DAOFactory.criaAutorDAO().listar(resultado.getInt(1)));
-            }
-            MysqlUtil.closeConnection(connection, consulta, resultado);
-        } catch (Exception e) {
-            System.out.println("Erro ao buscar livro. Erro: " + e.getMessage());
-        }
-        return livro;
+        ArrayList<String> isbn2 = new ArrayList<String>();
+        Map<String,  ArrayList<String>> map = new HashMap<String,  ArrayList<String>>();
+        isbn2.add(livroID.toString());
+        map.put("id_livro", isbn2);
+        return filtarLivros(null, map).get(0);
     }
 
     @Override
@@ -114,123 +99,83 @@ public class LivroDAOMysql implements LivroDAO {
 
     @Override
     public Livro buscarISBN(Long isbn) {
-        Livro livro = null;
-        try {
-            connection = MysqlUtil.getConnection();
-            String sql = "SELECT * FROM livro WHERE isbn" + isbn.toString().length() + " = ?";
-            PreparedStatement consulta = connection.prepareStatement(sql);
-            consulta.setLong(1, isbn);
-            ResultSet resultado = consulta.executeQuery();
-            if (resultado.next()) {
-                livro = new Livro(
-                        resultado.getInt(1),
-                        resultado.getString(7),
-                        resultado.getString(3),
-                        resultado.getInt(2),
-                        resultado.getInt(5),
-                        resultado.getLong(6),
-                        resultado.getInt(8),
-                        resultado.getInt(4),
-                        DAOFactory.criaEditoraDAO().buscar(resultado.getInt(9)),
-                        DAOFactory.criaSubgeneroDAO().buscar(resultado.getInt(12)),
-                        DAOFactory.criaOrigemDAO().buscar(resultado.getInt(11)),
-                        DAOFactory.criaIdiomaDAO().buscar(resultado.getInt(10)),
-                        DAOFactory.criaAutorDAO().listar(resultado.getInt(1)));
-            }
-            MysqlUtil.closeConnection(connection, consulta, resultado);
-        } catch (Exception e) {
-            System.out.println("Erro ao buscar livro. Erro: " + e.getMessage());
-        }
-        return livro;
-    }
-
-    @Override
-    public List<Livro> listar() {
-        List<Livro> lista = new ArrayList<Livro>();
-        try {
-            connection = MysqlUtil.getConnection();
-            String sql = "SELECT * FROM livro";
-            PreparedStatement consulta = connection.prepareStatement(sql);
-            ResultSet resultado = consulta.executeQuery();
-            while (resultado.next()) {
-                lista.add(new Livro(
-                        resultado.getInt(1),
-                        resultado.getString(7),
-                        resultado.getString(3),
-                        resultado.getInt(2),
-                        resultado.getInt(5),
-                        resultado.getLong(6),
-                        resultado.getInt(8),
-                        resultado.getInt(4),
-                        DAOFactory.criaEditoraDAO().buscar(resultado.getInt(9)),
-                        DAOFactory.criaSubgeneroDAO().buscar(resultado.getInt(12)),
-                        DAOFactory.criaOrigemDAO().buscar(resultado.getInt(11)),
-                        DAOFactory.criaIdiomaDAO().buscar(resultado.getInt(10)),
-                        DAOFactory.criaAutorDAO().listar(resultado.getInt(1))));
-            }
-            MysqlUtil.closeConnection(connection, consulta, resultado);
-        } catch (Exception e) {
-            System.out.println("Erro ao listar livros. Erro: " + e.getMessage());
-        }
-        return lista;
+        ArrayList<String> isbn2 = new ArrayList<String>();
+        Map<String,  ArrayList<String>> map = new HashMap<String,  ArrayList<String>>();
+        isbn2.add(isbn.toString());
+        map.put("isbn"+isbn.toString().length(), isbn2);
+        return filtarLivros(null, map).get(0);
     }
 
     @Override
     public List<Livro> filtarLivros(Map<String, ArrayList<String>> objects, Map<String, ArrayList<String>> criterios) {
-        List<Livro> lista = new ArrayList<Livro>();
+        Map<Integer, Livro> lista = new HashMap<Integer, Livro>();
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "select distinct LIVRO.* from livro LIVRO  "
+            String sql = "select distinct LIVRO.*, AUTOR.*, EDITORA.*, SUBGENERO.*, ORIGEM.*, IDIOMA.* from livro LIVRO  "
                     + "inner join autor_livro AUTOR_LIVRO on LIVRO.id_livro = AUTOR_LIVRO.id_livro "
                     + "inner join autor AUTOR on AUTOR_LIVRO.id_autor = AUTOR.id_autor "
                     + "inner join editora EDITORA on LIVRO.editora_id_editora = EDITORA.id_editora "
                     + "inner join origem ORIGEM on LIVRO.origem_id_origem = ORIGEM.id_origem "
                     + "inner join idioma IDIOMA on LIVRO.idioma_id_idioma = IDIOMA.id_idioma "
                     + "inner join subgenero SUBGENERO on LIVRO.subgenero_id_subgenero = SUBGENERO.id_subgenero ";
-            
-            for (String key : objects.keySet()) {
-                if (!objects.get(key).isEmpty()) {
-                    sql += " and " + key.toUpperCase() + ".id_"+key+" in " + arrayInIn(objects.get(key));
+            if (objects != null) {
+                for (String key : objects.keySet()) {
+                    if (!objects.get(key).isEmpty()) {
+                        sql += " and " + key.toUpperCase() + ".id_" + key + " in " + arrayInIn(objects.get(key));
+                    }
                 }
             }
-            for (String key : criterios.keySet()) {
-                if (!criterios.get(key).isEmpty()) {
-                    sql += " and LIVRO."+key+" in " + arrayInIn(criterios.get(key));
+            if (criterios != null) {
+                for (String key : criterios.keySet()) {
+                    if (!criterios.get(key).isEmpty()) {
+                        sql += " and LIVRO." + key + " in " + arrayInIn(criterios.get(key));
+                    }
                 }
             }
-            System.out.println(sql);
             PreparedStatement consulta = connection.prepareStatement(sql);
             ResultSet resultado = consulta.executeQuery();
+            List<Autor> autors = new ArrayList<Autor>();
+            Livro livro = new Livro();
             while (resultado.next()) {
-                lista.add(new Livro(
-                        resultado.getInt(1),
-                        resultado.getString(7),
-                        resultado.getString(3),
-                        resultado.getInt(2),
-                        resultado.getInt(5),
-                        resultado.getLong(6),
-                        resultado.getInt(8),
-                        resultado.getInt(4),
-                        DAOFactory.criaEditoraDAO().buscar(resultado.getInt(9)),
-                        DAOFactory.criaSubgeneroDAO().buscar(resultado.getInt(12)),
-                        DAOFactory.criaOrigemDAO().buscar(resultado.getInt(11)),
-                        DAOFactory.criaIdiomaDAO().buscar(resultado.getInt(10)),
-                        DAOFactory.criaAutorDAO().listar(resultado.getInt(1))));
+                if (!lista.containsKey(resultado.getInt(1))) {
+                    livro = new Livro(
+                            resultado.getInt(1),
+                            resultado.getString(7),
+                            resultado.getString(3),
+                            resultado.getInt(2),
+                            resultado.getInt(5),
+                            resultado.getLong(6),
+                            resultado.getInt(8),
+                            resultado.getInt(4),
+                            new Editora(resultado.getInt(16), resultado.getString(17)),
+                            //new Subgenero(resultado.getInt(18), resultado.getString(19)),
+                            DAOFactory.criaSubgeneroDAO().buscar(resultado.getInt(18)),
+                            new Origem(resultado.getInt(21), resultado.getString(22)),
+                            new Idioma(resultado.getInt(23), resultado.getString(24), resultado.getString(24)),
+                            new ArrayList<Autor>());
+                    lista.put(resultado.getInt(1), livro);
+                }
+                if (lista.containsKey(resultado.getInt(1))) {
+                    lista.get(livro.getId()).getAutor().add(new Autor(resultado.getInt(13), resultado.getString(14), resultado.getString(15)));
+                }
             }
             MysqlUtil.closeConnection(connection, consulta, resultado);
-        } catch (Exception e) {
-            System.out.println("Erro ao executar filtro. Erro: " + e.getMessage());
+        } catch (SQLException e) {
+            System.out.println("Erro ao listar livros. Erro: " + e.getMessage());
         }
-        return lista;
+        ArrayList<Livro> livros = new ArrayList<Livro>();
+        for (Map.Entry<Integer, Livro> entry : lista.entrySet()) {
+            livros.add(entry.getValue());
+        }
+        return livros;
     }
-    
+
     @Override
-    public Set<Object> valores(String coluna, boolean repetidos){
-         Set<Object> lista = new HashSet<Object>();
-         
+    public Set<Object> valores(String coluna, boolean repetidos) {
+        Set<Object> lista = new HashSet<Object>();
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "select "+(repetidos==true?"distinct":"")+" "+coluna+" FROM livro";
+            String sql = "select " + (repetidos == true ? "distinct" : "") + " " + coluna + " FROM livro";
             PreparedStatement consulta = connection.prepareStatement(sql);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
@@ -238,11 +183,11 @@ public class LivroDAOMysql implements LivroDAO {
             }
             MysqlUtil.closeConnection(connection, consulta, resultado);
         } catch (Exception e) {
-            System.out.println("Erro ao listar os(as) "+coluna+" da tabela livro. Erro: " + e.getMessage());
+            System.out.println("Erro ao listar os(as) " + coluna + " da tabela livro. Erro: " + e.getMessage());
         }
         return lista;
     }
-    
+
     public String arrayInIn(List<String> objects) {
         String in = "(";
         for (String object : objects) {
@@ -252,6 +197,11 @@ public class LivroDAOMysql implements LivroDAO {
                 in += object + ",";
             }
         }
-        return in+")";
+        return in + ")";
+    }
+
+    @Override
+    public List<Livro> listar() {
+        return filtarLivros(null, null);
     }
 }

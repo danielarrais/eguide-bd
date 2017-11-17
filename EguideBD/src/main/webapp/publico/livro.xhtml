@@ -2,7 +2,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <ui:composition template="/templates/template.xhtml">
         <ui:define name="title">
             <h:panelGroup rendered="#{livroBean.livro != null}">
@@ -14,36 +15,88 @@
         </ui:define>
         <ui:define name="corpo">
             <h:panelGroup rendered="#{livroBean.livro != null}">
-                <h3>Titulo:</h3>
+                <h6><strong>Titulo:</strong></h6>
                 <p>#{livroBean.livro.nome}</p>
-                <h3>Descrição:</h3>
+                <h6><strong>Nota:</strong></h6>
+                <p>#{livroBean.avaliacoes.size()==0?'Ainda não avaliado':livroBean.nota}</p>
+                <h6><strong>Descrição:</strong></h6>
                 <p>#{livroBean.livro.descricao}</p>
-                <h3>Autores:</h3>
+                <h6><strong>Autores:</strong></h6>
                 <p>
                     <ui:repeat value="#{livroBean.autores}" var="autor">
                         #{autor.nomeAbnt}<br/>
                     </ui:repeat>
                 </p>
-                <h3>Editora:</h3>
+                <h6><strong>Editora:</strong></h6>
                 <p>#{livroBean.livro.editora.nome}</p>
-                <h3>Idioma:</h3>
+                <h6><strong>Idioma:</strong></h6>
                 <p>#{livroBean.livro.idioma.nome}</p>
-                <h3>Número de páginas:</h3>
+                <h6><strong>Número de páginas:</strong></h6>
                 <p>#{livroBean.livro.paginas}</p>
-                <h3>Edição:</h3>
+                <h6><strong>Edição:</strong></h6>
                 <p>#{livroBean.livro.edicao}</p>
-                <h3>Genero:</h3>
+                <h6><strong>Genero:</strong></h6>
                 <p>#{livroBean.livro.subgenero.nomeGenero}</p>
-                <h3>Subgenero:</h3>
+                <h6><strong>Subgenero:</strong></h6>
                 <p>#{livroBean.livro.subgenero.nomeSubgenero}</p>
-                <h3>Ano:</h3>
+                <h6><strong>Ano:</strong></h6>
                 <p>#{livroBean.livro.ano}</p>
-                <h3>Isbn 10:</h3>
+                <h6><strong>Isbn 10:</strong></h6>
                 <p>#{livroBean.livro.isbn10}</p>
-                <h3>Isbn 13:</h3>
+                <h6><strong>Isbn 13:</strong></h6>
                 <p>#{livroBean.livro.isbn13}</p>
             </h:panelGroup>
-            
+            <h:panelGroup rendered="#{livroBean.livro != null}">
+                <h:form>
+                    <h:commandButton value="Quero ler" action="#{livroBean.marcar(3)}">
+                        <f:param name="livro" value="#{livroBean.livro.isbn13}" />
+                    </h:commandButton>
+                    <h:commandButton value="Já li" action="#{livroBean.marcar(2)}">
+                        <f:param name="livro" value="#{livroBean.livro.isbn13}" />
+                    </h:commandButton>
+                    <h:commandButton value="Lendo" action="#{livroBean.marcar(1)}">
+                        <f:param name="livro" value="#{livroBean.livro.isbn13}" />
+                    </h:commandButton>
+                </h:form>
+                <h:panelGroup rendered="#{loginBean.usuario != null}">
+                    <p>Status atual: #{livroBean.status.nome}</p>
+                </h:panelGroup>
+                
+                <h:panelGroup rendered="#{loginBean.usuario == null}">
+                    <hr/>
+                    <h6><strong>Deixe sua avaliação:</strong></h6>
+                    <h3>Para avaliar o titulo, faça login ou <h:link outcome="/publico/cadastrousuario">cadastre-se</h:link> no site</h3>
+                </h:panelGroup>
+                <h:panelGroup rendered="#{livroBean.exibirFormAvaliacao()}">
+                    <hr/>
+                    <h6><strong>Deixe sua avaliação:</strong></h6>
+                    <h:form>
+                        <h:outputLabel value="Nota:" for="nota"/>
+                        <h:selectOneRadio id="nota" value="#{livroBean.avaliacao.nota}" required="true" requiredMessage="Para avaliar você deve escolher uma nota!!!">
+                            <f:selectItems value="#{livroBean.notas}" noSelectionValue="true" />
+                        </h:selectOneRadio>
+                        <h:outputLabel value="Comentário:" for="coment"/>
+                        <h:inputTextarea id="coment" value="#{livroBean.avaliacao.comentario}"/>
+                        <h:commandButton value="Avaliar" action="#{livroBean.avaliar()}"/>
+                    </h:form>
+                    <hr/>
+                </h:panelGroup>
+
+            </h:panelGroup>
+            <h:panelGroup rendered="#{livroBean.avaliacoes.size() == 0}">
+                <h5>Nenhuma avaliação feita</h5>
+            </h:panelGroup>
+            <h:panelGroup rendered="#{livroBean.avaliacoes.size() > 0}">
+                <hr/>
+                <h5>Avaliações:</h5>
+                <ui:repeat value="#{livroBean.avaliacoes}" var="avaliacao">
+                    <h:panelGroup>
+                        <h5><strong>Avaliação feita por #{avaliacao.id==livroBean.comentarioDoUsuarioLogado?'você':avaliacao.usuario.nome}</strong></h5>
+                        <p><strong>Nota: </strong> #{avaliacao.nota}<br/>
+                            <strong>Comentário:</strong> #{avaliacao.comentario}</p>
+                    </h:panelGroup>
+                </ui:repeat>
+            </h:panelGroup> 
             <h:panelGroup rendered="#{livroBean.livro == null}">
                 <h1>Titulo não encontrado!!!</h1>
             </h:panelGroup>

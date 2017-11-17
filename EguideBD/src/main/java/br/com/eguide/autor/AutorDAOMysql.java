@@ -1,5 +1,6 @@
 package br.com.eguide.autor;
 
+import br.com.eguide.statuslivro.StatusLivro;
 import br.com.eguide.util.MysqlUtil;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -98,7 +99,7 @@ public class AutorDAOMysql implements AutorDAO {
         List<Autor> lista = new ArrayList<Autor>();
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "select na1.* from livro u "
+            String sql = "select distinct na1.* from livro u "
                     + "inner join autor_livro nu1 on u.id_livro = nu1.id_livro "
                     + "inner join autor na1 on nu1.id_autor = na1.id_autor and u.id_livro = ?";
             PreparedStatement consulta = connection.prepareStatement(sql);
@@ -113,4 +114,6 @@ public class AutorDAOMysql implements AutorDAO {
         }
         return lista;
     }
+    
+  
 }

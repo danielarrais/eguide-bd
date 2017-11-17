@@ -45,6 +45,7 @@ public class Genero implements Serializable {
     }
 
     public List<Subgenero> getSubgeneros() {
+        
         return subgeneros;
     }
 

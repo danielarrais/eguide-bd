@@ -1,25 +1,28 @@
 package br.com.eguide.util;
 
-import br.com.eguide.autor.Autor;
 import br.com.eguide.autor.AutorDAO;
 import br.com.eguide.autor.AutorDAOMysql;
+import br.com.eguide.avaliacao.AvaliacaoDAO;
+import br.com.eguide.avaliacao.AvaliacaoDAOMysql;
 import br.com.eguide.editora.EditoraDAO;
 import br.com.eguide.editora.EditoraDAOMysql;
 import br.com.eguide.genero.GeneroDAO;
 import br.com.eguide.genero.GeneroDAOMysql;
 import br.com.eguide.idioma.*;
-import br.com.eguide.livro.Livro;
 import br.com.eguide.livro.LivroDAO;
 import br.com.eguide.livro.LivroDAOMysql;
 import br.com.eguide.nivelAcesso.NivelAcessoDAO;
 import br.com.eguide.nivelAcesso.NivelAcessoDAOMysql;
 import br.com.eguide.origem.OrigemDAO;
 import br.com.eguide.origem.OrigemDAOMysql;
+import br.com.eguide.statuslivro.StatusLivro;
 import br.com.eguide.statuslivro.StatusLivroDAO;
 import br.com.eguide.statuslivro.StatusLivroDAOMysql;
 import br.com.eguide.subgenero.SubgeneroDAO;
 import br.com.eguide.subgenero.SubgeneroDAOMysql;
 import br.com.eguide.usuario.*;
+import java.util.HashSet;
+import java.util.Set;
 
 public class DAOFactory {
 
@@ -70,6 +73,11 @@ public class DAOFactory {
     public static NivelAcessoDAO criaNivelAcessoDAO() {
         NivelAcessoDAOMysql nivelAcessoDAO = new NivelAcessoDAOMysql();
         return nivelAcessoDAO;
+    }
+    
+    public static AvaliacaoDAO criaAvaliacaoDAO() {
+        AvaliacaoDAOMysql avaliacaoDAO = new AvaliacaoDAOMysql();
+        return avaliacaoDAO;
     }
 
     public static void main(String[] args) {
@@ -178,11 +186,10 @@ public class DAOFactory {
 //        for (Usuario arg : usuarioDAO.listar()) {
 //           System.out.println("ID: "+arg.getId()+" Nome: "+arg.getNome());
 //        }
-        Livro e = DAOFactory.criaLivroDAO().buscar(1);
-        System.out.println(e);
-        for (Autor arg : e.getAutor()) {
-           System.out.println("ID: "+arg.getId()+" Nome: "+arg.getNome());
+        Set<StatusLivro> statusLivros = new HashSet<StatusLivro>();
+        for (int i = 0; i < 10; i++) {
+            statusLivros.add(new StatusLivro(1, "Status"));
         }
-
+        System.out.println(statusLivros.size());
         }
     }

@@ -74,5 +74,7 @@ public class LoginBean {
     public void setSenhaInformada(String senhaInformada) {
         this.senhaInformada = senhaInformada;
     }
-
+    public static Usuario getUsuarioLogado() {
+        return ((LoginBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginBean")).usuario;
+    }
 }

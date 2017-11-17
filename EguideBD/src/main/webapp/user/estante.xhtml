@@ -18,8 +18,14 @@
             </ui:repeat>
             <h5><strong>Livros que você marcou como lidos</strong></h5>
             <hr/>
+            <ui:repeat value="#{estanteBean.livrosLidos}" var="livro">
+                <h6><h:link value="#{livro.nome}" outcome="/publico/livro.xhtml?faces-redirect=true&amp;livro=#{livro.isbn13.toString()}" /></h6><br/>
+            </ui:repeat>
             <h5><strong>Livros que você marcou como quero ler</strong></h5>
             <hr/>
+            <ui:repeat value="#{estanteBean.livrosQuero}" var="livro">
+                <h6><h:link value="#{livro.nome}" outcome="/publico/livro.xhtml?faces-redirect=true&amp;livro=#{livro.isbn13.toString()}" /></h6><br/>
+            </ui:repeat>
         </ui:define>
     </ui:composition>
 </html>

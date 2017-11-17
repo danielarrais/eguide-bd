@@ -98,6 +98,21 @@ public class SubgeneroDAOMysql implements SubgeneroDAO {
 
     @Override
     public List<Subgenero> listarSubgenerosGenero(Integer genero) {
-        return null;
+        List<Subgenero> lista = new ArrayList<Subgenero>();
+        try {
+            connection = MysqlUtil.getConnection();
+            String sql = "SELECT distinct SUBGENERO.* FROM subgenero SUBGENERO "
+                    + "inner join genero GENERO on GENERO.id_genero = SUBGENERO.genero_id_genero and GENERO.id_genero = ?";
+            PreparedStatement consulta = connection.prepareStatement(sql);
+            consulta.setInt(1, genero);
+            ResultSet resultado = consulta.executeQuery();
+            while (resultado.next()) {
+                lista.add(new Subgenero(resultado.getInt(1), resultado.getString(2)));
+            }
+            MysqlUtil.closeConnection(connection, consulta, resultado);
+        } catch (Exception e) {
+            System.out.println("Erro ao listar subgeneros. Erro: " + e.getMessage());
+        }
+        return lista;
     }
 }
