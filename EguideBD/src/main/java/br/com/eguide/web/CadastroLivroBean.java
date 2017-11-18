@@ -14,10 +14,18 @@ import br.com.eguide.origem.Origem;
 import br.com.eguide.origem.OrigemRN;
 import br.com.eguide.subgenero.Subgenero;
 import br.com.eguide.subgenero.SubgeneroRN;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.Serializable;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Scanner;
 import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
@@ -25,10 +33,13 @@ import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
+import javax.servlet.ServletContext;
+import javax.servlet.annotation.MultipartConfig;
+import javax.servlet.http.Part;
 
 @Named
 @javax.faces.view.ViewScoped
-public class CadastroLivroBean implements Serializable {
+public class CadastroLivroBean  implements Serializable {
 
     private static final long serialVersionUID = 8642498319160375496L;
 
@@ -47,6 +58,8 @@ public class CadastroLivroBean implements Serializable {
     private int idGeneroSelecionado;
     private List<SelectItem> subgeneros;
     private int idSubGeneroSelecionado;
+
+    private Part capa;
 
     private boolean passo1 = true, passo2, passo3;
 
@@ -139,8 +152,6 @@ public class CadastroLivroBean implements Serializable {
     public void setPasso3(boolean passo3) {
         this.passo3 = passo3;
     }
-    
-    
 
     public void estadoUm() {
         passo1 = true;
@@ -203,13 +214,11 @@ public class CadastroLivroBean implements Serializable {
     }
 
     public List<SelectItem> getSubgeneros() {
-        GeneroRN generoRN = new GeneroRN();
+        SubgeneroRN generoRN = new SubgeneroRN();
         if (generos != null && idGeneroSelecionado > 0) {
             subgeneros = new ArrayList<SelectItem>();
             List<Subgenero> sub
-                    = generoRN.
-                            buscar(idGeneroSelecionado).
-                            getSubgeneros();
+                    = generoRN.listarPorGenero(idGeneroSelecionado);
             for (Subgenero subgenero : sub) {
                 subgeneros.add(new SelectItem(subgenero.getIdSub(), subgenero.getNomeSubgenero()));
             }
@@ -325,6 +334,26 @@ public class CadastroLivroBean implements Serializable {
 
     public void setIdSubGeneroSelecionado(int idSubGeneroSelecionado) {
         this.idSubGeneroSelecionado = idSubGeneroSelecionado;
+    }
+
+    public Part getCapa() {
+        return capa;
+    }
+
+    public void setCapa(Part capa) {
+        this.capa = capa;
+    }
+
+    public void importa() {
+        try {
+//           
+//                  InputStreamReader reader =  new InputStreamReader(capa.getInputStream());
+//                  reader.
+//            Files.write(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/imagens/capas/" + livro.getIsbn13()), reader., options)
+//            capa.write(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/imagens/capas/" + livro.getIsbn13())+"/"+livro.getIsbn13()+".jpeg");
+        } catch (IOException e) {
+            // trata o erro
+        }
     }
 
     @PostConstruct

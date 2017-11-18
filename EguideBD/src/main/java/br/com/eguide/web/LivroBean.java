@@ -165,7 +165,7 @@ public class LivroBean implements Serializable {
         for (Avaliacao avaliacoe : getAvaliacoes()) {
             nota+=avaliacoe.getNota();
         }
-        return Double.valueOf(new DecimalFormat("0.00").format(nota/avaliacoes.size()).replace(",", "."));
+        return Double.valueOf(new DecimalFormat("#.##").format(nota/avaliacoes.size()));
     }
 
     public void setNota(double nota) {

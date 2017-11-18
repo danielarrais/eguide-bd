@@ -73,6 +73,13 @@
                             <h:inputText id="nome" value="#{cadastroLivroBean.livro.nome}" required="true" requiredMessage="Informe o nome do livro!"/>
                         </h:panelGroup>
                         <h:panelGroup>
+                            <h:form id="form" enctype="multipart/form-data">
+                                <h:outputLabel value="Capa" for="arquivo" />
+                                <h:inputFile id="arquivo" value="#{cadastroLivroBean.capa}" 
+                                             required="true" label="Arquivo" />
+                            </h:form>  
+                        </h:panelGroup>
+                        <h:panelGroup>
                             <h:outputLabel for="descricao" value="Descricao:"/>
                             <h:inputTextarea id="descricao" value="#{cadastroLivroBean.livro.descricao}" required="true" requiredMessage="Informe a descrição do livro!"/>
                         </h:panelGroup>
@@ -142,6 +149,7 @@
                     <h:commandButton value="Voltar" actionListener="#{cadastroLivroBean.estadoDois}" immediate="true"/>
                     <h:commandButton type="submit" value="Cadastrar livro" action="#{cadastroLivroBean.cadastrar()}"/>
                 </h:form>
+                
             </h:panelGroup>
         </ui:define>
     </ui:composition>

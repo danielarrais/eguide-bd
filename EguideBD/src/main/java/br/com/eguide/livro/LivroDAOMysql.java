@@ -86,10 +86,15 @@ public class LivroDAOMysql implements LivroDAO {
     @Override
     public Livro buscar(Integer livroID) {
         ArrayList<String> isbn2 = new ArrayList<String>();
-        Map<String,  ArrayList<String>> map = new HashMap<String,  ArrayList<String>>();
+        Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         isbn2.add(livroID.toString());
         map.put("id_livro", isbn2);
-        return filtarLivros(null, map).get(0);
+        List<Livro> livros = filtarLivros(null, map);
+        if (livros.isEmpty()) {
+            return null;
+        } else {
+            return livros.get(0);
+        }
     }
 
     @Override
@@ -100,10 +105,15 @@ public class LivroDAOMysql implements LivroDAO {
     @Override
     public Livro buscarISBN(Long isbn) {
         ArrayList<String> isbn2 = new ArrayList<String>();
-        Map<String,  ArrayList<String>> map = new HashMap<String,  ArrayList<String>>();
+        Map<String, ArrayList<String>> map = new HashMap<String, ArrayList<String>>();
         isbn2.add(isbn.toString());
-        map.put("isbn"+isbn.toString().length(), isbn2);
-        return filtarLivros(null, map).get(0);
+        map.put("isbn" + isbn.toString().length(), isbn2);
+        List<Livro> livros = filtarLivros(null, map);
+        if (livros.isEmpty()) {
+            return null;
+        } else {
+            return livros.get(0);
+        }
     }
 
     @Override
