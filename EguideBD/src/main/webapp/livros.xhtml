@@ -21,6 +21,10 @@
                                     <f:selectItems  value="#{livrosBean.editoras}" var="editora" itemValue="#{editora.id}" itemLabel="#{editora.nome}"/>
                                 </h:selectManyCheckbox>
                                 <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.subgenerosSelecionados}">
+                                    <h5>Genero</h5>
+                                    <f:selectItems  value="#{livrosBean.generos}" var="genero" itemValue="#{genero.id}" itemLabel="#{genero.nomeGenero}"/>
+                                </h:selectManyCheckbox>
+                                <h:selectManyCheckbox layout="pageDirection" value="#{livrosBean.subgenerosSelecionados}">
                                     <h5>Subgenero</h5>
                                     <f:selectItems  value="#{livrosBean.subgeneros}" var="subgenero" itemValue="#{subgenero.idSub}" itemLabel="#{subgenero.nomeSubgenero}"/>
                                 </h:selectManyCheckbox>

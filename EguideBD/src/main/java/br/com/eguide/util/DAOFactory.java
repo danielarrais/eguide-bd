@@ -65,6 +65,7 @@ public class DAOFactory {
         SubgeneroDAOMysql subgeneroDAO = new SubgeneroDAOMysql();
         return subgeneroDAO;
     }
+
     public static StatusLivroDAO criaStatusLivroDAO() {
         StatusLivroDAOMysql statusLivroDAOMysql = new StatusLivroDAOMysql();
         return statusLivroDAOMysql;
@@ -74,7 +75,7 @@ public class DAOFactory {
         NivelAcessoDAOMysql nivelAcessoDAO = new NivelAcessoDAOMysql();
         return nivelAcessoDAO;
     }
-    
+
     public static AvaliacaoDAO criaAvaliacaoDAO() {
         AvaliacaoDAOMysql avaliacaoDAO = new AvaliacaoDAOMysql();
         return avaliacaoDAO;
@@ -186,10 +187,7 @@ public class DAOFactory {
 //        for (Usuario arg : usuarioDAO.listar()) {
 //           System.out.println("ID: "+arg.getId()+" Nome: "+arg.getNome());
 //        }
-        Set<StatusLivro> statusLivros = new HashSet<StatusLivro>();
-        for (int i = 0; i < 10; i++) {
-            statusLivros.add(new StatusLivro(1, "Status"));
-        }
-        System.out.println(statusLivros.size());
-        }
+Long l = 1231231234562l;
+        System.out.println(DAOFactory.criaLivroDAO().buscarISBN(1231231234562l));
     }
+}

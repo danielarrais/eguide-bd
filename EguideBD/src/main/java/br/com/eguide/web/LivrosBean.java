@@ -9,6 +9,7 @@ import br.com.eguide.autor.Autor;
 import br.com.eguide.autor.AutorRN;
 import br.com.eguide.editora.Editora;
 import br.com.eguide.editora.EditoraRN;
+import br.com.eguide.genero.Genero;
 import br.com.eguide.genero.GeneroRN;
 import br.com.eguide.idioma.Idioma;
 import br.com.eguide.idioma.IdiomaRN;
@@ -25,21 +26,21 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.PostConstruct;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
-import javax.faces.view.ViewScoped;
-import javax.inject.Named;
 
-@Named
+@ManagedBean(name = "livrosBean")
 @ViewScoped
-public class LivrosBean implements Serializable {
-
-    private static final long serialVersionUID = -5006195333643630711L;
+public class LivrosBean  {
 
     private List<Livro> livros;
     private List<Idioma> idiomas;
     private List<Origem> origens;
     private List<Editora> editoras;
     private List<Subgenero> subgeneros;
+    private List<Genero> generos;
     private List<Autor> autores;
     private Set<String> anos;
 
@@ -50,7 +51,7 @@ public class LivrosBean implements Serializable {
     private ArrayList<String> subgenerosSelecionados;
     private ArrayList<String> autoresSelecionados;
     private ArrayList<String> anosSelecionados;
-
+    private ArrayList<String> generosSelecionados;
     Map<String, ArrayList<String>> restricoes;
     Map<String, ArrayList<String>> restricoesIsoladas;
 
@@ -122,13 +123,6 @@ public class LivrosBean implements Serializable {
     }
 
     public List<String> getSubgenerosSelecionados() {
-        String subgenero = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("subgenero");
-        if (subgenero!=null) {
-            if (subgenerosSelecionados==null) {
-                subgenerosSelecionados = new ArrayList<String>();
-            }
-            subgenerosSelecionados.add(subgenero);
-        }
         return subgenerosSelecionados;
     }
 
@@ -161,6 +155,9 @@ public class LivrosBean implements Serializable {
         }
         if (subgenerosSelecionados != null) {
             restricoes.put("subgenero", subgenerosSelecionados);
+        }
+        if (generosSelecionados != null) {
+            restricoes.put("genero", generosSelecionados);
         }
         if (anosSelecionados != null) {
             restricoesIsoladas.put("ano",anosSelecionados);
@@ -226,4 +223,42 @@ public class LivrosBean implements Serializable {
     public void setAutores(List<Autor> autores) {
         this.autores = autores;
     }
+
+    public List<Genero> getGeneros() {
+        if (generos == null) {
+            generos = generoRN.listar();
+        }
+        return generos;
+    }
+
+    public void setGeneros(List<Genero> generos) {
+        this.generos = generos;
+    }
+
+    public ArrayList<String> getGenerosSelecionados() {
+        return generosSelecionados;
+    }
+
+    public void setGenerosSelecionados(ArrayList<String> generosSelecionados) {
+        
+        this.generosSelecionados = generosSelecionados;
+    }
+
+    public LivrosBean() {
+        String genero = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("genero");
+        if (genero!=null) {
+            if (generosSelecionados==null) {
+                generosSelecionados = new ArrayList<String>();
+            }
+            generosSelecionados.add(genero);
+        }
+        String subgenero = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("subgenero");
+        if (subgenero!=null) {
+            if (subgenerosSelecionados==null) {
+                subgenerosSelecionados = new ArrayList<String>();
+            }
+            subgenerosSelecionados.add(subgenero);
+        }
+    }
+   
 }

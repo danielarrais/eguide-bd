@@ -19,7 +19,6 @@ public class UsuarioRN {
     }
     public void salvar(Usuario usuario){
         Integer codigo = usuario.getId();
-        usuario.setSenha(DigestUtils.sha1Hex(usuario.getSenha()));
         if (codigo==null || codigo==0) {
             usuarioDAO.salvar(usuario);
         }else{

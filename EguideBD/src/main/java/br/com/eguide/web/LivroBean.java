@@ -1,5 +1,15 @@
 package br.com.eguide.web;
 
+import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.model.SelectItem;
+
 import br.com.eguide.autor.Autor;
 import br.com.eguide.avaliacao.Avaliacao;
 import br.com.eguide.avaliacao.AvaliacaoRN;
@@ -7,16 +17,9 @@ import br.com.eguide.livro.Livro;
 import br.com.eguide.livro.LivroRN;
 import br.com.eguide.statuslivro.StatusLivro;
 import br.com.eguide.statuslivro.StatusLivroRN;
-import java.io.Serializable;
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
-import javax.faces.context.FacesContext;
-import javax.faces.model.SelectItem;
-import javax.inject.Named;
 
-@Named
-@javax.faces.view.ViewScoped
+@ManagedBean(name = "livroBean")
+@ViewScoped
 public class LivroBean implements Serializable {
 
     private static final long serialVersionUID = 7567248990963268906L;
@@ -165,7 +168,7 @@ public class LivroBean implements Serializable {
         for (Avaliacao avaliacoe : getAvaliacoes()) {
             nota+=avaliacoe.getNota();
         }
-        return Double.valueOf(new DecimalFormat("#.##").format(nota/avaliacoes.size()));
+        return Double.valueOf(new DecimalFormat("#.##").format(nota/avaliacoes.size()).replace(",", "."));
     }
 
     public void setNota(double nota) {

@@ -16,6 +16,7 @@ import br.com.eguide.subgenero.Subgenero;
 import br.com.eguide.subgenero.SubgeneroRN;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -30,16 +31,19 @@ import java.util.Set;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Named;
 import javax.servlet.ServletContext;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
+import org.apache.commons.io.IOUtils;
 
-@Named
-@javax.faces.view.ViewScoped
-public class CadastroLivroBean  implements Serializable {
+@ManagedBean(name = "cadastroLivroBean")
+@ViewScoped
+public class CadastroLivroBean implements Serializable {
 
     private static final long serialVersionUID = 8642498319160375496L;
 
@@ -81,9 +85,14 @@ public class CadastroLivroBean  implements Serializable {
         livro.setEditora(editoraRN.buscar(editoraSelecionada));
         livro.setAutor(setAutores);
 
-        livroRN.salvar(livro);
-        livro = new Livro();
+        if (livroRN.buscarISBN10(livro.getIsbn10()) != null) {
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Já existe um livro com esse ISBN10!"));
+            return null;
+        }
 
+        livroRN.salvar(livro);
+        importa(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/imagens/capas") + +livro.getIsbn13() + "\\" + livro.getIsbn13() + ".jpg", capa);
+        importa("D:\\EguideBD\\EguideBD\\src\\main\\webapp\\resources\\imagens\\capas\\" + livro.getIsbn13() + ".jpg", capa);
         return "cadastrosucesso";
     }
 
@@ -344,26 +353,15 @@ public class CadastroLivroBean  implements Serializable {
         this.capa = capa;
     }
 
-    public void importa() {
+    public void importa(String url_nome, Part part) {
         try {
-//           
-//                  InputStreamReader reader =  new InputStreamReader(capa.getInputStream());
-//                  reader.
-//            Files.write(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/imagens/capas/" + livro.getIsbn13()), reader., options)
-//            capa.write(((ServletContext) FacesContext.getCurrentInstance().getExternalContext().getContext()).getRealPath("/resources/imagens/capas/" + livro.getIsbn13())+"/"+livro.getIsbn13()+".jpeg");
+            byte[] bytes = IOUtils.toByteArray(part.getInputStream());
+            OutputStream out = new FileOutputStream(new File(url_nome));
+            IOUtils.copy(capa.getInputStream(), out);
+            out.close();
         } catch (IOException e) {
             // trata o erro
         }
-    }
-
-    @PostConstruct
-    void init() {
-        System.out.println("Initializing Address Bean.");
-    }
-
-    @PreDestroy
-    void destroy() {
-        System.out.println("Destroying Address Bean.");
     }
 
 }

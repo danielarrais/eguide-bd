@@ -2,11 +2,7 @@ package br.com.eguide.web;
 
 import br.com.eguide.nivelAcesso.NivelAcesso;
 import br.com.eguide.usuario.Usuario;
-import br.com.eguide.usuario.UsuarioDAOMysql;
 import br.com.eguide.usuario.UsuarioRN;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -18,22 +14,18 @@ public class LoginBean {
 
     String emailInformado;
     String senhaInformada;
-    private Set<NivelAcesso> nivelAcessos ;
     Usuario usuario;
 
     public String logar() {
         UsuarioRN usuarioRN = new UsuarioRN();
-        if ((usuario = usuarioRN.buscarPorEmail(emailInformado)) != null) {
-            String senhaHash = DigestUtils.sha1Hex(senhaInformada);
-            nivelAcessos = new HashSet<NivelAcesso>();
-            for (NivelAcesso nivelAcesso : usuario.getNivelAcesso()) {
-                nivelAcessos.add(nivelAcesso);
-            }
-            if (usuario.getSenha().equals(usuario.getSenha())) {
-                return "/index?faces-redirect=true";
+        Usuario user;
+        if ((user = usuarioRN.buscarPorEmail(emailInformado)) != null) {
+            if (user.getSenha().equals(DigestUtils.sha1Hex(senhaInformada))) {
+                usuario = user;
+                return null;
             }
         }
-        return "/publico/cadastrarlivro/passo1.xhtml";
+        return null;
     }
 
     public String sair() {
@@ -47,7 +39,7 @@ public class LoginBean {
     }
 
     public boolean isNivel(String nivelAcesso) {
-        for (NivelAcesso nivel : nivelAcessos) {
+        for (NivelAcesso nivel : usuario.getNivelAcesso()) {
             if (nivel.getNivel().equalsIgnoreCase(nivelAcesso)) {
                 return true;
             }
@@ -74,6 +66,7 @@ public class LoginBean {
     public void setSenhaInformada(String senhaInformada) {
         this.senhaInformada = senhaInformada;
     }
+
     public static Usuario getUsuarioLogado() {
         return ((LoginBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginBean")).usuario;
     }

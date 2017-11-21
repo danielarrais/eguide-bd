@@ -75,7 +75,7 @@
                             <div class="top-bar-left">
                                 <ul class="dropdown menu" data-dropdown-menu="">
                                     <li class="has-submenu">
-                                        <a href="#0">Categorias</a>
+                                        <h:link value="Livros" outcome="/livros.xhtml"/>
                                         <ul class="submenu menu vertical" data-submenu="">
                                             <ui:repeat value="#{templateBean.menuGeneros}" var="genero">
                                                 <li><h:link value="#{genero.nomeGenero}" outcome="/livros.xhtml">

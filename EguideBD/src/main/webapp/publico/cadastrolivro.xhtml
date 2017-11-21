@@ -65,7 +65,7 @@
             </h:panelGroup>
             <h:panelGroup rendered="#{cadastroLivroBean.passo3 == true}">
                 <h3>Passo 3: Finalizar cadastro:</h3>
-                <h:form id="fomulario">
+                <h:form  enctype="multipart/form-data" id="fomulario">
                     <h:messages/>
                     <h:panelGrid columns="1">
                         <h:panelGroup>
@@ -75,8 +75,7 @@
                         <h:panelGroup>
                             <h:form id="form" enctype="multipart/form-data">
                                 <h:outputLabel value="Capa" for="arquivo" />
-                                <h:inputFile id="arquivo" value="#{cadastroLivroBean.capa}" 
-                                             required="true" label="Arquivo" />
+                                <h:inputFile id="arquivo" value="#{cadastroLivroBean.capa}" required="true" label="Arquivo" />
                             </h:form>  
                         </h:panelGroup>
                         <h:panelGroup>

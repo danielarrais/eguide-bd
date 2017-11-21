@@ -15,6 +15,7 @@
         </ui:define>
         <ui:define name="corpo">
             <h:panelGroup rendered="#{livroBean.livro != null}">
+                <h:graphicImage library="imagens" name="capas/#{livroBean.livro.isbn13}.jpg" width="200px"/>
                 <h6><strong>Titulo:</strong></h6>
                 <p>#{livroBean.livro.nome}</p>
                 <h6><strong>Nota:</strong></h6>

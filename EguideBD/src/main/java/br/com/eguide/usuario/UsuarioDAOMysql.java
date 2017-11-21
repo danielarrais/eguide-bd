@@ -18,7 +18,7 @@ public class UsuarioDAOMysql implements UsuarioDAO {
     public void salvar(Usuario usuario) {
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "INSERT INTO `usuario` (`email`, `emailSec`, `nascimento`, `nome`, `senha`, `sobrenome`) VALUES (?, ?, ?, ?, ?, ?)";
+            String sql = "INSERT INTO `usuario` (`email`, `emailSec`, `nascimento`, `nome`, `senha`, `sobrenome`) VALUES (?, ?, ?, ?, SHA1(?), ?)";
             PreparedStatement cadastro = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             cadastro.setString(1, usuario.getEmail());
             cadastro.setString(2, usuario.getEmailSec());
