@@ -18,11 +18,14 @@ public class UsuarioRN {
         return usuarioDAO.buscarPorEmail(email);
     }
     public void salvar(Usuario usuario){
+        salvar(usuario, false);
+    }
+    public void salvar(Usuario usuario, Boolean sha1){
         Integer codigo = usuario.getId();
         if (codigo==null || codigo==0) {
             usuarioDAO.salvar(usuario);
         }else{
-            usuarioDAO.atualizar(usuario);
+            usuarioDAO.atualizar(usuario, sha1);
         }
     }
     public void excluir(Usuario usuario){

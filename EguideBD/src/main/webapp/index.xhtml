@@ -2,16 +2,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
         <title>Facelet Title</title>
     </h:head>
     <h:body>
         <ui:composition template="/templates/template.xhtml">
             <ui:define name="corpo">
-                <h:link outcome="/publico/cadastrousuario" value="Cadastro de usuarios"/><br/>
-                <h:link outcome="/publico/cadastrolivro" value="Cadastrar livro"/><br/>
-                
+                <h4>Bem vindo ao eguide, busque seu livro preferido pelo menus de busca ou por <h:link outcome="/livros">aqui</h:link></h4>
             </ui:define>
         </ui:composition>
     </h:body>

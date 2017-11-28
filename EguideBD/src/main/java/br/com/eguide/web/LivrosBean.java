@@ -33,7 +33,7 @@ import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "livrosBean")
 @ViewScoped
-public class LivrosBean  {
+public class LivrosBean {
 
     private List<Livro> livros;
     private List<Idioma> idiomas;
@@ -43,6 +43,8 @@ public class LivrosBean  {
     private List<Genero> generos;
     private List<Autor> autores;
     private Set<String> anos;
+
+    private String busca;
 
     private ArrayList<String> livrosSelecionados;
     private ArrayList<String> idiomasSelecionados;
@@ -68,8 +70,8 @@ public class LivrosBean  {
     }
 
     public Set<String> getAnos() {
-        if (anos==null) {
-            anos= new HashSet<String>();
+        if (anos == null) {
+            anos = new HashSet<String>();
         }
         for (Object valor : livroRN.valores("ano", false)) {
             anos.add(valor.toString());
@@ -126,6 +128,14 @@ public class LivrosBean  {
         return subgenerosSelecionados;
     }
 
+    public String getCampoBusca() {
+        return busca;
+    }
+
+    public void setCampoBusca(String campoBusca) {
+        this.busca = campoBusca;
+    }
+
     public void setSubgenerosSelecionados(ArrayList<String> subgenerosSelecionados) {
         this.subgenerosSelecionados = subgenerosSelecionados;
     }
@@ -160,7 +170,12 @@ public class LivrosBean  {
             restricoes.put("genero", generosSelecionados);
         }
         if (anosSelecionados != null) {
-            restricoesIsoladas.put("ano",anosSelecionados);
+            restricoesIsoladas.put("ano", anosSelecionados);
+        }
+        if (busca != null) {
+            ArrayList<String> buscas = new ArrayList<String>();
+            buscas.add(busca);
+            restricoesIsoladas.put("busca", buscas);
         }
         return new LivroRN().listaEspecial(restricoes, restricoesIsoladas);
     }
@@ -240,25 +255,36 @@ public class LivrosBean  {
     }
 
     public void setGenerosSelecionados(ArrayList<String> generosSelecionados) {
-        
+
         this.generosSelecionados = generosSelecionados;
+    }
+
+    public String getBusca() {
+        return busca;
+    }
+
+    public void setBusca(String busca) {
+        this.busca = busca;
     }
 
     public LivrosBean() {
         String genero = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("genero");
-        if (genero!=null) {
-            if (generosSelecionados==null) {
+        if (genero != null) {
+            if (generosSelecionados == null) {
                 generosSelecionados = new ArrayList<String>();
             }
             generosSelecionados.add(genero);
         }
         String subgenero = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("subgenero");
-        if (subgenero!=null) {
-            if (subgenerosSelecionados==null) {
+        if (subgenero != null) {
+            if (subgenerosSelecionados == null) {
                 subgenerosSelecionados = new ArrayList<String>();
             }
             subgenerosSelecionados.add(subgenero);
         }
+        String buscaFeita = FacesContext.getCurrentInstance().getExternalContext().getRequestParameterMap().get("busca");
+        this.busca = buscaFeita;
+        System.out.println("Parametro busca:"+busca);
     }
-   
+
 }

@@ -83,11 +83,12 @@ public class SubgeneroDAOMysql implements SubgeneroDAO {
         List<Subgenero> lista = new ArrayList<Subgenero>();
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "SELECT * FROM subgenero";
+            String sql = "SELECT distinct * FROM subgenero SUB \n"
+                    + "inner join genero GEN on GEN.id_genero = SUB.genero_id_genero ORDER BY GEN.nome";
             PreparedStatement consulta = connection.prepareStatement(sql);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {
-                lista.add(new Subgenero(resultado.getInt(1), resultado.getString(2)));
+                lista.add(new Subgenero(resultado.getInt(1), resultado.getString(2), new Genero(resultado.getInt(4), resultado.getString(5))));
             }
             MysqlUtil.closeConnection(connection, consulta, resultado);
         } catch (Exception e) {
@@ -102,7 +103,7 @@ public class SubgeneroDAOMysql implements SubgeneroDAO {
         try {
             connection = MysqlUtil.getConnection();
             String sql = "SELECT distinct SUBGENERO.* FROM subgenero SUBGENERO "
-                    + "inner join genero GENERO on GENERO.id_genero = SUBGENERO.genero_id_genero and GENERO.id_genero = ?";
+                    + "inner join genero GENERO on GENERO.id_genero = SUBGENERO.genero_id_genero and GENERO.id_genero = ? ORDER BY nome";
             PreparedStatement consulta = connection.prepareStatement(sql);
             consulta.setInt(1, genero);
             ResultSet resultado = consulta.executeQuery();

@@ -82,7 +82,7 @@
                             <h:outputLabel for="descricao" value="Descricao:"/>
                             <h:inputTextarea id="descricao" value="#{cadastroLivroBean.livro.descricao}" required="true" requiredMessage="Informe a descrição do livro!"/>
                         </h:panelGroup>
-                        <h:panelGrid columns="2">
+                        <h:panelGrid id="generos" columns="2">
                             <h:panelGroup>
                                 <h:outputLabel for="genero" value="Genero:"/>
                                 <h:selectOneMenu value="#{cadastroLivroBean.idGeneroSelecionado}" >
@@ -90,6 +90,7 @@
                                     <f:selectItems value="#{cadastroLivroBean.generos}"/>
                                     <p:ajax update="subgenero" listener="#{cadastroLivroBean.setSubgeneros(cadastroLivroBean.subgeneros)}"/>
                                 </h:selectOneMenu>
+                                <h:link value="Cadastrar novo genero" target="_blank" outcome="/user/generos.xhtml"/>
                             </h:panelGroup>
                             <h:panelGroup >
                                 <h:outputLabel for="subgenero" value="Subgenero:"/>
@@ -97,6 +98,13 @@
                                     <f:selectItem itemLabel="Selecione um subgenero" itemValue="#{0}"/>
                                     <f:selectItems value="#{cadastroLivroBean.subgeneros}"/>
                                 </h:selectOneMenu>
+                                <h:link value="Cadastrar novo subgenero" target="_blank" outcome="/user/subgeneros.xhtml"/>
+                            </h:panelGroup>
+                            <h:panelGroup>
+                                Já cadastrou??
+                                <h:commandButton value="atualize aqui" immediate="true">
+                                    <p:ajax update="generos"/>
+                                </h:commandButton>
                             </h:panelGroup>
                         </h:panelGrid>
 
@@ -148,7 +156,7 @@
                     <h:commandButton value="Voltar" actionListener="#{cadastroLivroBean.estadoDois}" immediate="true"/>
                     <h:commandButton type="submit" value="Cadastrar livro" action="#{cadastroLivroBean.cadastrar()}"/>
                 </h:form>
-                
+
             </h:panelGroup>
         </ui:define>
     </ui:composition>

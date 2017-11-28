@@ -121,8 +121,8 @@ public class AvaliacaoDAOMysql implements AvaliacaoDAO {
         ArrayList<Avaliacao> avaliacoes = new ArrayList<Avaliacao>();
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "select distinct AVALIACAO.*, USUARIO.*, LIVRO.* FROM avaliacao AVALIACAO\n" +
-"inner join  usuario USUARIO on AVALIACAO.id_usuario = USUARIO.id_usuario\n" +
+            String sql = "select distinct AVALIACAO.*, USUARIO.*, LIVRO.* FROM avaliacao AVALIACAO " +
+"inner join  usuario USUARIO on AVALIACAO.id_usuario = USUARIO.id_usuario " +
 "INNER JOIN livro LIVRO on AVALIACAO.id_livro = LIVRO.id_livro and LIVRO.id_livro = ?";
             PreparedStatement consulta = connection.prepareStatement(sql);
             consulta.setInt(1, livro.getId());
@@ -147,6 +147,7 @@ public class AvaliacaoDAOMysql implements AvaliacaoDAO {
                             resultado.getInt(20),
                             resultado.getInt(16),
                             null, null, null, null, null);
+                System.err.println("");
                 avaliacoes.add(new Avaliacao(resultado.getInt(1), resultado.getString(2), resultado.getDouble(3), usuario, livroNovo));
             }
             MysqlUtil.closeConnection(connection, consulta, resultado);

@@ -15,29 +15,20 @@ import br.com.eguide.origem.OrigemRN;
 import br.com.eguide.subgenero.Subgenero;
 import br.com.eguide.subgenero.SubgeneroRN;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Serializable;
-import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Scanner;
 import java.util.Set;
-import javax.annotation.PostConstruct;
-import javax.annotation.PreDestroy;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
-import javax.inject.Named;
 import javax.servlet.ServletContext;
-import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.Part;
 import org.apache.commons.io.IOUtils;
 
@@ -355,7 +346,6 @@ public class CadastroLivroBean implements Serializable {
 
     public void importa(String url_nome, Part part) {
         try {
-            byte[] bytes = IOUtils.toByteArray(part.getInputStream());
             OutputStream out = new FileOutputStream(new File(url_nome));
             IOUtils.copy(capa.getInputStream(), out);
             out.close();

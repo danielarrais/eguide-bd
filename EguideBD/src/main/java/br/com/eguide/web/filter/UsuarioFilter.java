@@ -28,11 +28,11 @@ public class UsuarioFilter implements Filter {
 
         String url = req.getRequestURL().toString();
         if (loginBean == null) {
-            res.sendRedirect("/EguideBD");
+            res.sendRedirect("/EguideBD/login.xhtml");
             return;
         }
         if ((url.contains("/admin") || url.contains("/user")) && loginBean.getUsuario() == null) {
-            res.sendRedirect("/EguideBD");
+            res.sendRedirect("/EguideBD/login.xhtml");
         } else {
             try {
                 if (loginBean.isNivel("admin")) {

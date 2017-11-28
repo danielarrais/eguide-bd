@@ -1,6 +1,7 @@
 
 package br.com.eguide.editora;
 
+import br.com.eguide.usuario.Usuario;
 import java.util.List;
 
 public interface EditoraDAO {

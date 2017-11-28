@@ -39,9 +39,14 @@ public class UsuarioDAOMysql implements UsuarioDAO {
 
     @Override
     public void atualizar(Usuario usuario) {
+        atualizar(usuario, false);
+    }
+
+    @Override
+    public void atualizar(Usuario usuario, Boolean sha1) {
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "UPDATE `usuario` SET `email` = ?, `emailSec` = ?, `nascimento` = ?, `nome` = ?, `senha` = ?, `sobrenome` = ? WHERE `id_usuario` = ?";
+            String sql = "UPDATE `usuario` SET `email` = ?, `emailSec` = ?, `nascimento` = ?, `nome` = ?, `senha` = "+(sha1?"SHA1(?)":"?")+", `sobrenome` = ? WHERE `id_usuario` = ?";
             PreparedStatement cadastro = connection.prepareStatement(sql);
             cadastro.setString(1, usuario.getEmail());
             cadastro.setString(2, usuario.getEmailSec());

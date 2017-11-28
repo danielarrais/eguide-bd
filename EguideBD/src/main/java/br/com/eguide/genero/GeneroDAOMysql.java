@@ -94,7 +94,7 @@ public class GeneroDAOMysql implements GeneroDAO {
         ArrayList<Genero> listaSet = new ArrayList<Genero>();
         try {
             connection = MysqlUtil.getConnection();
-            String sql = "SELECT * FROM genero";
+            String sql = "SELECT * FROM genero ORDER BY nome;";
             PreparedStatement consulta = connection.prepareStatement(sql);
             ResultSet resultado = consulta.executeQuery();
             while (resultado.next()) {

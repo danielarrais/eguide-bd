@@ -20,4 +20,5 @@ public interface UsuarioDAO {
     public Usuario buscar(Integer usuario);
     public Usuario buscarPorEmail(String email);
     public List<Usuario> listar();
+    public void atualizar(Usuario usuario, Boolean sha1);
 }

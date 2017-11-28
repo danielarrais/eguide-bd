@@ -1,3 +1,4 @@
+<?xml version='1.0' encoding='ISO-8859-1' ?>
 <html class="no-js" lang="en" xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
@@ -80,7 +81,7 @@
                                             <ui:repeat value="#{templateBean.menuGeneros}" var="genero">
                                                 <li><h:link value="#{genero.nomeGenero}" outcome="/livros.xhtml">
                                                         <f:param name="genero"  value="#{genero.id}" />
-                                                </h:link>
+                                                    </h:link>
                                                     <h:panelGroup rendered="#{not empty genero.subgeneros}">
                                                         <ul class="submenu menu vertical" data-submenu="">
                                                             <ui:repeat  value="#{genero.subgeneros}" var="subgenero">
@@ -96,7 +97,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="#0">Autores</a>
+                                        <h:link outcome="/user/cadastrolivro" value="Cadastrar livro"/>
                                     </li>
 
                                     <li><a href="#0">Sobre o Eguide</a></li>
@@ -105,8 +106,10 @@
                             <div class="top-bar-right">
                                 <h:form>
                                     <ul class="menu">
-                                        <li><h:inputText value="" class="textInput" a:placeholder="Buscar"/></li>
-                                        <li><h:button value="Buscar" styleClass="button bbuscar textInput" /></li>
+                                        <li><h:inputText value="#{templateBean.campoBusca}" class="textInput" a:placeholder="Buscar"/></li>
+                                        <li><h:commandButton value="Buscar" action="#{templateBean.buscar()}" styleClass="button bbuscar textInput" >
+                                                <f:param name="busca" value="#{templateBean.campoBusca}" />
+                                            </h:commandButton></li>
                                     </ul>
                                 </h:form>
                             </div>
