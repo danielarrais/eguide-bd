@@ -70,4 +70,7 @@ public class LoginBean {
     public static Usuario getUsuarioLogado() {
         return ((LoginBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginBean")).usuario;
     }
+    public static LoginBean getIntancia() {
+        return ((LoginBean) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("loginBean"));
+    }
 }

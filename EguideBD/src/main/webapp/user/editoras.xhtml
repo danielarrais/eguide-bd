@@ -1,0 +1,52 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <ui:composition template="/templates/template.xhtml">
+        <ui:define name="title">
+            <title>Editoras</title>
+        </ui:define>
+        <ui:define name="corpo">
+            <br/>
+            <center><h3>Cadastrar uma nova editora</h3></center>
+            <h:form>
+                <h:panelGrid columns="2">
+                    <h:panelGroup>
+                        <h:outputLabel value="Nome da editora:" for="nome"/>
+                        <h:inputText id="nome" value="#{editorasBean.editora.nome}" />
+                    </h:panelGroup>
+                    <h:commandButton styleClass="button" action="#{editorasBean.gravar()}" value="Gravar editora"/>
+                </h:panelGrid>
+
+                <h:messages/>
+            </h:form>
+            <br/>
+            <h:form>
+                <center><h3>Editoras cadastradas</h3></center>
+                <h:dataTable value="#{editorasBean.editoras}" var="editora">
+                    <f:facet name="footer">Fim da lista</f:facet>
+                    <h:column>
+                        <f:facet name="header">Código</f:facet>
+                        <h:outputText value="#{editora.id}" />
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Nome</f:facet>
+                        <h:outputText value="#{editora.nome}" />
+                    </h:column>
+                    <h:column rendered="#{loginBean.isNivel('admin')==true}">
+                        <f:facet name="header">Excluir</f:facet>
+                        <h:commandLink onclick="if (!confirm('Confirma exclusão da editora #{editora.nome}? ao excluir uma editora, todos seus livros também serão excluídos.'))
+                                    return false" 
+                                       value="Excluir" action="#{editorasBean.excluir(editora)}"/>
+                    </h:column>
+                    <h:column rendered="#{loginBean.isNivel('admin')==true}">
+                        <f:facet name="header">Editar</f:facet>
+                        <h:commandLink value="Editar" action="#{editorasBean.editar(editora)}"/>
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+        </ui:define>
+    </ui:composition>
+</html>

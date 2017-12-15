@@ -32,14 +32,18 @@
                     <h:messages/>
                     <h:panelGrid columns="2">
                         <h:panelGroup>
-                            <h:selectOneMenu value="#{cadastroLivroBean.autorSelecionado}" converter="autorConverter">
+                            <h:selectOneMenu id="autores" value="#{cadastroLivroBean.autorSelecionado}" converter="autorConverter">
                                 <f:selectItems value="#{cadastroLivroBean.autores}" var="autor" itemLabel="#{autor.nome}" itemValue="#{autor}" />
                             </h:selectOneMenu>
                         </h:panelGroup>
-                        <h:panelGroup>
+                        <h:panelGroup >
                             <h:commandButton value="Adicionar autor">
                                 <f:ajax listener="#{cadastroLivroBean.addAutor(cadastroLivroBean.autorSelecionado)}" execute="@all" render="passo2" event="click"/>
                             </h:commandButton>
+                            Cadastre um novo <h:link value="aqui" target="_blank" outcome="/user/autores.xhtml"/><br/>
+                            Já cadastrou? atualize <h:commandLink value="aqui" >
+                                <p:ajax update="autores"/>
+                            </h:commandLink>
                         </h:panelGroup>
                     </h:panelGrid>
                     <h:commandButton value="Voltar" action="#{cadastroLivroBean.estadoUm}" immediate="true"/>
@@ -101,10 +105,9 @@
                                 <h:link value="Cadastrar novo subgenero" target="_blank" outcome="/user/subgeneros.xhtml"/>
                             </h:panelGroup>
                             <h:panelGroup>
-                                Já cadastrou??
-                                <h:commandButton value="atualize aqui" immediate="true">
+                                Já cadastrou? atualize <h:commandLink value="aqui" >
                                     <p:ajax update="generos"/>
-                                </h:commandButton>
+                                </h:commandLink>
                             </h:panelGroup>
                         </h:panelGrid>
 
@@ -136,6 +139,11 @@
                                 <h:selectOneMenu id="editora" value="#{cadastroLivroBean.editoraSelecionada}" required="true" requiredMessage="Escolha uma Editora!">
                                     <f:selectItems value="#{cadastroLivroBean.editoras}" />
                                 </h:selectOneMenu>
+
+                                <h:link value="Cadastrar nova editora" target="_blank" outcome="/user/editoras.xhtml"/>
+                                Já cadastrou? atualize <h:commandLink value="aqui" >
+                                    <p:ajax update="editora"/>
+                                </h:commandLink>
                             </h:panelGroup>
                         </h:panelGrid>
                         <h:panelGrid columns="3">

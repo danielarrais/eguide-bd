@@ -57,7 +57,7 @@ public class RecuperarSenhaBean {
         if (novaSenha.equals(senhaConfirmada)) {
             UsuarioRN usuarioRN = new UsuarioRN();
             usuario.setSenha(novaSenha);
-            usuarioRN.salvar(usuario);
+            usuarioRN.salvar(usuario, true);
             return "/index";
         } else {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("As senha não coincidem!"));

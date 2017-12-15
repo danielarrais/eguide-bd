@@ -308,12 +308,7 @@ public class CadastroLivroBean implements Serializable {
     }
 
     public List<Autor> getAutores() {
-        if (autores == null) {
-            AutorRN autorRN = new AutorRN();
-            autores = autorRN.listar();
-        }
-
-        return autores;
+        return new AutorRN().listar();
     }
 
     public void setAutores(List<Autor> autores) {

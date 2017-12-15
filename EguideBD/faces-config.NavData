@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Scene Scope="Project" version="2">
+    <Scope Scope="Faces Configuration Only"/>
+    <Scope Scope="Project">
+        <Node id="publico/livro.xhtml" x="150" y="450" zoom="true"/>
+        <Node id="index.xhtml" x="900" y="150" zoom="true"/>
+        <Node id="idiomas.xhtml" x="400" y="600" zoom="true"/>
+        <Node id="admin/usuarios.xhtml" x="150" y="750" zoom="true"/>
+        <Node id="user/estante.xhtml" x="400" y="150" zoom="true"/>
+        <Node id="admin/index.xhtml" x="650" y="450" zoom="true"/>
+        <Node id="publico/sucessocadastro.xhtml" x="150" y="600" zoom="true"/>
+        <Node id="login.xhtml" x="150" y="300" zoom="true"/>
+        <Node id="admin/idiomas.xhtml" x="400" y="450" zoom="true"/>
+        <Node id="user/index.xhtml" x="150" y="150" zoom="true"/>
+        <Node id="user/cadastrosucesso.xhtml" x="400" y="300" zoom="true"/>
+        <Node id="user/cadastrolivro.xhtml" x="650" y="300" zoom="true"/>
+        <Node id="publico/recuperarsenha.xhtml" x="900" y="300" zoom="true"/>
+        <Node id="publico/cadastrousuario.xhtml" x="650" y="150" zoom="true"/>
+        <Node id="livros.xhtml" x="1226" y="307" zoom="true"/>
+        <Node id="templates/template.xhtml" x="1150" y="150" zoom="true"/>
+    </Scope>
+    <Scope Scope="All Faces Configurations"/>
+</Scene>

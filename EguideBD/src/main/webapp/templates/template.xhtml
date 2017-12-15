@@ -48,6 +48,7 @@
                                     <li class="has-submenu">
                                         <a href="#0">#{loginBean.usuario.nome}</a>
                                         <ul class="submenu menu vertical" data-submenu="">
+                                           <li><h:link outcome="/user/estante" value="Minha estante"/></li>
                                             <li><h:link outcome="/user/index">Preferências</h:link></li>
                                             <h:panelGroup rendered="#{loginBean.isNivel('admin')==true}">
                                                 <li><h:link outcome="/admin/index">Administração</h:link></li>

@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Usuario implements Serializable {
+public class Usuario implements Serializable, Cloneable {
 
     private static final long serialVersionUID = 1991432369109352952L;
     private Integer id;
@@ -167,4 +167,8 @@ public class Usuario implements Serializable {
         return true;
     }
 
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone(); //To change body of generated methods, choose Tools | Templates.
+    }
 }
